@@ -8,7 +8,6 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive
 import kotlinx.serialization.SerializationException
-import platform.Foundation.NSErrorDomain
 import platform.Foundation.NSURLErrorCallIsActive
 import platform.Foundation.NSURLErrorCannotFindHost
 import platform.Foundation.NSURLErrorDNSLookupFailed
@@ -23,7 +22,7 @@ import kotlin.coroutines.coroutineContext
 
 actual suspend fun <T> platformSafeCall(
     execute: suspend () -> HttpResponse,
-    handleResponse: suspend (HttpResponse) -> Result<T, DataError.Remote>
+    handleResponse: suspend (HttpResponse) -> Result<T, DataError.Remote>,
 ): Result<T, DataError.Remote> {
     return try {
         val response = execute()
@@ -53,12 +52,15 @@ private fun handleDarwinException(e: DarwinHttpRequestException): Result<Nothing
             NSURLErrorResourceUnavailable,
             NSURLErrorInternationalRoamingOff,
             NSURLErrorCallIsActive,
-            NSURLErrorDataNotAllowed -> {
+            NSURLErrorDataNotAllowed,
+            -> {
                 Result.Failure(DataError.Remote.NO_INTERNET)
             }
 
             NSURLErrorTimedOut -> Result.Failure(DataError.Remote.REQUEST_TIMEOUT)
             else -> Result.Failure(DataError.Remote.UNKNOWN)
         }
-    } else Result.Failure(DataError.Remote.UNKNOWN)
+    } else {
+        Result.Failure(DataError.Remote.UNKNOWN)
+    }
 }

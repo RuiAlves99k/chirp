@@ -3,11 +3,13 @@ package com.ruialves.core.presentation.util
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowSizeClass.Companion.HEIGHT_DP_EXPANDED_LOWER_BOUND
+import androidx.window.core.layout.WindowSizeClass.Companion.HEIGHT_DP_MEDIUM_LOWER_BOUND
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_EXPANDED_LOWER_BOUND
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 
 @Composable
-fun currentDeviceConfiguration(): DeviceConfiguration{
+fun currentDeviceConfiguration(): DeviceConfiguration {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     return DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
 }
@@ -17,20 +19,21 @@ enum class DeviceConfiguration {
     MOBILE_LANDSCAPE,
     TABLET_PORTRAIT,
     TABLET_LANDSCAPE,
-    DESKTOP;
+    DESKTOP,
+    ;
 
     companion object {
         fun fromWindowSizeClass(windowSizeClass: WindowSizeClass): DeviceConfiguration {
             return with(windowSizeClass) {
                 when {
                     minWidthDp < WIDTH_DP_MEDIUM_LOWER_BOUND &&
-                            minHeightDp >= WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND -> MOBILE_PORTRAIT
+                        minHeightDp >= HEIGHT_DP_MEDIUM_LOWER_BOUND -> MOBILE_PORTRAIT
                     minWidthDp >= WIDTH_DP_EXPANDED_LOWER_BOUND &&
-                            minHeightDp < WindowSizeClass.HEIGHT_DP_EXPANDED_LOWER_BOUND -> MOBILE_LANDSCAPE
+                        minHeightDp < HEIGHT_DP_EXPANDED_LOWER_BOUND -> MOBILE_LANDSCAPE
                     minWidthDp in WIDTH_DP_MEDIUM_LOWER_BOUND..WIDTH_DP_EXPANDED_LOWER_BOUND &&
-                            minHeightDp >= WindowSizeClass.HEIGHT_DP_EXPANDED_LOWER_BOUND -> TABLET_PORTRAIT
+                        minHeightDp >= HEIGHT_DP_EXPANDED_LOWER_BOUND -> TABLET_PORTRAIT
                     minWidthDp >= WIDTH_DP_EXPANDED_LOWER_BOUND &&
-                            minHeightDp in WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND..WindowSizeClass.HEIGHT_DP_EXPANDED_LOWER_BOUND -> TABLET_LANDSCAPE
+                        minHeightDp in HEIGHT_DP_MEDIUM_LOWER_BOUND..HEIGHT_DP_EXPANDED_LOWER_BOUND -> TABLET_LANDSCAPE
                     else -> DESKTOP
                 }
             }

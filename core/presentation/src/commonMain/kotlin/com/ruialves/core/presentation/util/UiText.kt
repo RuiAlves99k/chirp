@@ -6,31 +6,33 @@ import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 sealed interface UiText {
-    data class DynamicString(val value: String): UiText
+    data class DynamicString(val value: String) : UiText
+
     class Resource(
         val id: StringResource,
-        val args: Array<Any> = arrayOf()
-    ): UiText
+        val args: Array<Any> = arrayOf(),
+    ) : UiText
 
     @Composable
     fun asString(): String {
-        return when(this){
+        return when (this) {
             is DynamicString -> value
-            is Resource -> stringResource(
-                resource = id,
-                formatArgs = *args
-            )
+            is Resource ->
+                stringResource(
+                    resource = id,
+                    formatArgs = *args,
+                )
         }
     }
 
     suspend fun asStringAsync(): String {
-        return when(this){
+        return when (this) {
             is DynamicString -> value
-            is Resource -> getString(
-                resource = id,
-                formatArgs = *args
-            )
+            is Resource ->
+                getString(
+                    resource = id,
+                    formatArgs = *args,
+                )
         }
     }
-
 }

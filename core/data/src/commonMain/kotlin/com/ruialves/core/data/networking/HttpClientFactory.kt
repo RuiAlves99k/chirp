@@ -1,7 +1,6 @@
 package com.ruialves.core.data.networking
 
 import com.ruialves.core.data.BuildKonfig
-import com.ruialves.core.data.logging.KermitLogger
 import com.ruialves.core.domain.logging.ChirpLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -21,25 +20,27 @@ import kotlinx.serialization.json.Json
 class HttpClientFactory(
     val chirpLogger: ChirpLogger,
 ) {
-    fun create(engine: HttpClientEngine): HttpClient{
+    fun create(engine: HttpClientEngine): HttpClient {
         return HttpClient(engine) {
             install(ContentNegotiation) {
                 json(
-                    json = Json {
-                        ignoreUnknownKeys = true
-                    }
+                    json =
+                        Json {
+                            ignoreUnknownKeys = true
+                        },
                 )
             }
             install(HttpTimeout) {
                 socketTimeoutMillis = 20_000L
                 requestTimeoutMillis = 20_000L
             }
-            install(Logging){
-                logger = object: Logger{
-                    override fun log(message: String) {
-                        chirpLogger.debug(message)
+            install(Logging) {
+                logger =
+                    object : Logger {
+                        override fun log(message: String) {
+                            chirpLogger.debug(message)
+                        }
                     }
-                }
                 level = LogLevel.ALL
             }
             install(WebSockets) {

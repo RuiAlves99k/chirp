@@ -22,7 +22,11 @@ import com.ruialves.core.designsystem.theme.extended
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 enum class ChirpButtonStyle {
-    PRIMARY, DESTRUCTIVE_PRIMARY, SECONDARY, DESTRUCTIVE_SECONDARY, TEXT
+    PRIMARY,
+    DESTRUCTIVE_PRIMARY,
+    SECONDARY,
+    DESTRUCTIVE_SECONDARY,
+    TEXT,
 }
 
 @Composable
@@ -33,67 +37,76 @@ fun ChirpButton(
     style: ChirpButtonStyle = ChirpButtonStyle.PRIMARY,
     enabled: Boolean = true,
     isLoading: Boolean = false,
-    leadingIcon: @Composable (() -> Unit)? = null
+    leadingIcon: @Composable (() -> Unit)? = null,
 ) {
-    val colors = when (style) {
-        ChirpButtonStyle.PRIMARY -> ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContentColor = MaterialTheme.colorScheme.extended.disabledFill,
-            disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled
-        )
+    val colors =
+        when (style) {
+            ChirpButtonStyle.PRIMARY ->
+                ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    disabledContentColor = MaterialTheme.colorScheme.extended.disabledFill,
+                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
+                )
 
-        ChirpButtonStyle.DESTRUCTIVE_PRIMARY -> ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.error,
-            contentColor = MaterialTheme.colorScheme.onError,
-            disabledContentColor = MaterialTheme.colorScheme.extended.disabledFill,
-            disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled
-        )
+            ChirpButtonStyle.DESTRUCTIVE_PRIMARY ->
+                ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError,
+                    disabledContentColor = MaterialTheme.colorScheme.extended.disabledFill,
+                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
+                )
 
-        ChirpButtonStyle.SECONDARY -> ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onSecondary,
-            disabledContentColor = Color.Transparent,
-            disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled
-        )
+            ChirpButtonStyle.SECONDARY ->
+                ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    disabledContentColor = Color.Transparent,
+                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
+                )
 
-        ChirpButtonStyle.DESTRUCTIVE_SECONDARY -> ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.error,
-            disabledContentColor = Color.Transparent,
-            disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled
-        )
+            ChirpButtonStyle.DESTRUCTIVE_SECONDARY ->
+                ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = MaterialTheme.colorScheme.error,
+                    disabledContentColor = Color.Transparent,
+                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
+                )
 
-        ChirpButtonStyle.TEXT -> ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.tertiary,
-            disabledContentColor = Color.Transparent,
-            disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled
-        )
-    }
-
-    val defaultBorderStroke = BorderStroke(
-        width = 1.dp,
-        color = MaterialTheme.colorScheme.extended.disabledOutline,
-    )
-    val border = when {
-        style == ChirpButtonStyle.PRIMARY && !enabled -> defaultBorderStroke
-        style == ChirpButtonStyle.SECONDARY -> defaultBorderStroke
-        style == ChirpButtonStyle.DESTRUCTIVE_PRIMARY && !enabled -> defaultBorderStroke
-        style == ChirpButtonStyle.DESTRUCTIVE_SECONDARY -> {
-            val borderColor = if (enabled) {
-                MaterialTheme.colorScheme.extended.destructiveSecondaryOutline
-            } else {
-                MaterialTheme.colorScheme.extended.disabledOutline
-            }
-            BorderStroke(
-                width = 1.dp,
-                color = borderColor
-            )
+            ChirpButtonStyle.TEXT ->
+                ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = MaterialTheme.colorScheme.tertiary,
+                    disabledContentColor = Color.Transparent,
+                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
+                )
         }
 
-        else -> null
-    }
+    val defaultBorderStroke =
+        BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.extended.disabledOutline,
+        )
+    val border =
+        when {
+            style == ChirpButtonStyle.PRIMARY && !enabled -> defaultBorderStroke
+            style == ChirpButtonStyle.SECONDARY -> defaultBorderStroke
+            style == ChirpButtonStyle.DESTRUCTIVE_PRIMARY && !enabled -> defaultBorderStroke
+            style == ChirpButtonStyle.DESTRUCTIVE_SECONDARY -> {
+                val borderColor =
+                    if (enabled) {
+                        MaterialTheme.colorScheme.extended.destructiveSecondaryOutline
+                    } else {
+                        MaterialTheme.colorScheme.extended.disabledOutline
+                    }
+                BorderStroke(
+                    width = 1.dp,
+                    color = borderColor,
+                )
+            }
+
+            else -> null
+        }
 
     Button(
         onClick = onClick,
@@ -101,28 +114,34 @@ fun ChirpButton(
         enabled = enabled,
         shape = RoundedCornerShape(8.dp),
         colors = colors,
-        border = border
+        border = border,
     ) {
-
         Box(
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             CircularProgressIndicator(
-                modifier = Modifier.size(15.dp).alpha(
-                    alpha = if (isLoading) 1f else 0f
-                ),
+                modifier =
+                    Modifier.size(15.dp).alpha(
+                        alpha = if (isLoading) 1f else 0f,
+                    ),
                 strokeWidth = 1.5.dp,
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    8.dp, Alignment.CenterHorizontally
-                ), verticalAlignment = Alignment.CenterVertically, modifier = Modifier.alpha(
-                    if (isLoading) 0f else 1f
-                )
+                horizontalArrangement =
+                    Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.CenterHorizontally,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier =
+                    Modifier.alpha(
+                        if (isLoading) 0f else 1f,
+                    ),
             ) {
                 leadingIcon?.invoke()
                 Text(
-                    text = text, style = MaterialTheme.typography.titleSmall
+                    text = text,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -134,7 +153,10 @@ fun ChirpButton(
 fun ChirpPrimaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
-            text = "Button!", style = ChirpButtonStyle.PRIMARY, onClick = {})
+            text = "Button!",
+            style = ChirpButtonStyle.PRIMARY,
+            onClick = {},
+        )
     }
 }
 
@@ -143,7 +165,10 @@ fun ChirpPrimaryButtonPreview() {
 fun ChirpDestructivePrimaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
-            text = "Button!", style = ChirpButtonStyle.DESTRUCTIVE_PRIMARY, onClick = {})
+            text = "Button!",
+            style = ChirpButtonStyle.DESTRUCTIVE_PRIMARY,
+            onClick = {},
+        )
     }
 }
 
@@ -152,7 +177,10 @@ fun ChirpDestructivePrimaryButtonPreview() {
 fun ChirpSecondaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
-            text = "Button!", style = ChirpButtonStyle.SECONDARY, onClick = {})
+            text = "Button!",
+            style = ChirpButtonStyle.SECONDARY,
+            onClick = {},
+        )
     }
 }
 
@@ -161,7 +189,10 @@ fun ChirpSecondaryButtonPreview() {
 fun ChirpDestructiveSecondaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
-            text = "Button!", style = ChirpButtonStyle.DESTRUCTIVE_SECONDARY, onClick = {})
+            text = "Button!",
+            style = ChirpButtonStyle.DESTRUCTIVE_SECONDARY,
+            onClick = {},
+        )
     }
 }
 
@@ -170,6 +201,9 @@ fun ChirpDestructiveSecondaryButtonPreview() {
 fun ChirpTextButtonPreview() {
     ChirpTheme {
         ChirpButton(
-            text = "Button!", style = ChirpButtonStyle.TEXT, onClick = {})
+            text = "Button!",
+            style = ChirpButtonStyle.TEXT,
+            onClick = {},
+        )
     }
 }

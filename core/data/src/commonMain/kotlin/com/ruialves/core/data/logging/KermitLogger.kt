@@ -3,7 +3,7 @@ package com.ruialves.core.data.logging
 import co.touchlab.kermit.Logger
 import com.ruialves.core.domain.logging.ChirpLogger
 
-object KermitLogger: ChirpLogger {
+object KermitLogger : ChirpLogger {
     override fun debug(message: String) {
         Logger.d(message)
     }
@@ -16,7 +16,10 @@ object KermitLogger: ChirpLogger {
         Logger.w(message)
     }
 
-    override fun error(message: String, throwable: Throwable?) {
+    override fun error(
+        message: String,
+        throwable: Throwable?,
+    ) {
         Logger.e(message, throwable)
     }
 }

@@ -53,73 +53,91 @@ fun ChirpPasswordTextField(
         supportingText = supportingText,
         enabled = enabled,
         onFocusChanged = onFocusChanged,
-        modifier = modifier
+        modifier = modifier,
     ) { styleModifier, interactionSource ->
         BasicSecureTextField(
             modifier = styleModifier,
             enabled = enabled,
-            textObfuscationMode = if (isPasswordVisible) {
-                TextObfuscationMode.Visible
-            } else TextObfuscationMode.Hidden,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password
-            ),
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
-                color = if (enabled) {
-                    MaterialTheme.colorScheme.onSurface
-                } else MaterialTheme.colorScheme.extended.textPlaceholder,
-            ),
+            textObfuscationMode =
+                if (isPasswordVisible) {
+                    TextObfuscationMode.Visible
+                } else {
+                    TextObfuscationMode.Hidden
+                },
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                ),
+            textStyle =
+                MaterialTheme.typography.bodyMedium.copy(
+                    color =
+                        if (enabled) {
+                            MaterialTheme.colorScheme.onSurface
+                        } else {
+                            MaterialTheme.colorScheme.extended.textPlaceholder
+                        },
+                ),
             interactionSource = interactionSource,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
             state = state,
             decorator = { innerBox ->
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Box(
-                        modifier = Modifier
-                            .weight(1f),
-                        contentAlignment = Alignment.CenterStart
+                        modifier =
+                            Modifier
+                                .weight(1f),
+                        contentAlignment = Alignment.CenterStart,
                     ) {
                         if (state.text.isEmpty() && placeholder != null) {
                             Text(
                                 text = placeholder,
                                 color = MaterialTheme.colorScheme.extended.textPlaceholder,
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodyMedium,
                             )
                         }
                         innerBox()
                     }
                     Icon(
-                        imageVector = if (isPasswordVisible) {
-                            vectorResource(Res.drawable.eye_off_icon)
-                        } else vectorResource(Res.drawable.eye_icon),
-                        contentDescription = if (isPasswordVisible) {
-                            stringResource(Res.string.hide_password)
-                        } else stringResource(Res.string.show_password),
+                        imageVector =
+                            if (isPasswordVisible) {
+                                vectorResource(Res.drawable.eye_off_icon)
+                            } else {
+                                vectorResource(Res.drawable.eye_icon)
+                            },
+                        contentDescription =
+                            if (isPasswordVisible) {
+                                stringResource(Res.string.hide_password)
+                            } else {
+                                stringResource(Res.string.show_password)
+                            },
                         tint = MaterialTheme.colorScheme.extended.textDisabled,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = ripple(
-                                    bounded = false,
-                                    radius = 24.dp
+                        modifier =
+                            Modifier
+                                .size(24.dp)
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication =
+                                        ripple(
+                                            bounded = false,
+                                            radius = 24.dp,
+                                        ),
+                                    onClick = onToggleVisibilityClick,
                                 ),
-                                onClick = onToggleVisibilityClick
-                            )
                     )
                 }
-            }
+            },
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpPasswordTextFieldPreview() {
     ChirpTheme {
@@ -127,18 +145,19 @@ fun ChirpPasswordTextFieldPreview() {
             state = rememberTextFieldState(),
             isPasswordVisible = true,
             onToggleVisibilityClick = {},
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Password",
             placeholder = "Abcde123!",
-            supportingText = "Use +9 characters, at least one digit and one uppercase"
+            supportingText = "Use +9 characters, at least one digit and one uppercase",
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpPasswordTextFieldFilledPreview() {
     ChirpTheme {
@@ -146,18 +165,19 @@ fun ChirpPasswordTextFieldFilledPreview() {
             state = rememberTextFieldState("password123"),
             isPasswordVisible = false,
             onToggleVisibilityClick = {},
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Password",
             placeholder = "Abcde123!",
-            supportingText = "Use +9 characters, at least one digit and one uppercase"
+            supportingText = "Use +9 characters, at least one digit and one uppercase",
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpPasswordTextFieldErrorPreview() {
     ChirpTheme {
@@ -165,8 +185,9 @@ fun ChirpPasswordTextFieldErrorPreview() {
             state = rememberTextFieldState("password123"),
             isPasswordVisible = true,
             onToggleVisibilityClick = {},
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Password",
             placeholder = "abcde123!",
             supportingText = "Doesn't contain an uppercase character",

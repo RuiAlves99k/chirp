@@ -24,32 +24,35 @@ fun ChirpIconButton(
 ) {
     OutlinedIconButton(
         onClick = onClick,
-        modifier = modifier
-            .size(45.dp),
+        modifier =
+            modifier
+                .size(45.dp),
         shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outline
-        ),
-        colors = IconButtonDefaults.outlinedIconButtonColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.extended.textSecondary
-        )
-    ){
+        border =
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+            ),
+        colors =
+            IconButtonDefaults.outlinedIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.extended.textSecondary,
+            ),
+    ) {
         content()
     }
 }
 
 @Composable
 @Preview
-fun ChirpButtonPreview(){
+fun ChirpButtonPreview() {
     ChirpTheme {
         ChirpIconButton(
-            onClick = {}
+            onClick = {},
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }
@@ -57,16 +60,16 @@ fun ChirpButtonPreview(){
 
 @Composable
 @Preview
-fun ChirpButtonDarkThemePreview(){
+fun ChirpButtonDarkThemePreview() {
     ChirpTheme(
-        darkTheme = true
+        darkTheme = true,
     ) {
         ChirpIconButton(
-            onClick = {}
+            onClick = {},
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }

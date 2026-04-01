@@ -8,7 +8,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 @Composable
 fun ChirpTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
     val extendedScheme = if (darkTheme) DarkExtendedColors else LightExtendedColors
@@ -17,7 +17,7 @@ fun ChirpTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
-            content = content
+            content = content,
         )
     }
 }

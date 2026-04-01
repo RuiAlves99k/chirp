@@ -17,14 +17,14 @@ import io.ktor.client.statement.HttpResponse
 
 expect suspend fun <T> platformSafeCall(
     execute: suspend () -> HttpResponse,
-    handleResponse: suspend (HttpResponse) -> Result<T, DataError.Remote>
+    handleResponse: suspend (HttpResponse) -> Result<T, DataError.Remote>,
 ): Result<T, DataError.Remote>
 
 suspend inline fun <reified Request, reified Response : Any> HttpClient.post(
     route: String,
     queryParams: Map<String, Any> = mapOf(),
     body: Request,
-    crossinline builder: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {},
 ): Result<Response, DataError.Remote> {
     return safeCall {
         post {
@@ -42,7 +42,7 @@ suspend inline fun <reified Request, reified Response : Any> HttpClient.put(
     route: String,
     queryParams: Map<String, Any> = mapOf(),
     body: Request,
-    crossinline builder: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {},
 ): Result<Response, DataError.Remote> {
     return safeCall {
         put {
@@ -59,7 +59,7 @@ suspend inline fun <reified Request, reified Response : Any> HttpClient.put(
 suspend inline fun <reified Response : Any> HttpClient.get(
     route: String,
     queryParams: Map<String, Any> = mapOf(),
-    crossinline builder: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {},
 ): Result<Response, DataError.Remote> {
     return safeCall {
         get {
@@ -75,7 +75,7 @@ suspend inline fun <reified Response : Any> HttpClient.get(
 suspend inline fun <reified Response : Any> HttpClient.delete(
     route: String,
     queryParams: Map<String, Any> = mapOf(),
-    crossinline builder: HttpRequestBuilder.() -> Unit = {}
+    crossinline builder: HttpRequestBuilder.() -> Unit = {},
 ): Result<Response, DataError.Remote> {
     return safeCall {
         delete {
@@ -88,11 +88,9 @@ suspend inline fun <reified Response : Any> HttpClient.delete(
     }
 }
 
-suspend inline fun <reified T> safeCall(
-    noinline execute: suspend () -> HttpResponse
-): Result<T, DataError.Remote> {
+suspend inline fun <reified T> safeCall(noinline execute: suspend () -> HttpResponse): Result<T, DataError.Remote> {
     return platformSafeCall(
-        execute = execute
+        execute = execute,
     ) { response ->
         responseToResult(response)
     }

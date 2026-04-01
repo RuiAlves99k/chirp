@@ -2,6 +2,7 @@ package com.ruialves.core.domain.util
 
 sealed interface Result<out D, out E : Error> {
     data class Success<out D>(val data: D) : Result<D, Nothing>
+
     data class Failure<out E : Error>(val error: E) : Result<Nothing, E>
 }
 
@@ -35,5 +36,5 @@ inline fun <T, E : Error> Result<T, E>.onFailure(action: (E) -> Unit): Result<T,
 typealias EmptyResult<E> = Result<Unit, E>
 
 fun <T, E : Error> Result<T, E>.asEmptyResult(): EmptyResult<E> {
-    return map {  }
+    return map { }
 }

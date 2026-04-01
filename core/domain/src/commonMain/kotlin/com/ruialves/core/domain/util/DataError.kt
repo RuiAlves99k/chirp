@@ -1,7 +1,7 @@
 package com.ruialves.core.domain.util
 
-sealed interface DataError: Error {
-    enum class Remote: DataError {
+sealed interface DataError : Error {
+    enum class Remote : DataError {
         BAD_REQUEST,
         REQUEST_TIMEOUT,
         UNAUTHORIZED,
@@ -14,12 +14,12 @@ sealed interface DataError: Error {
         SERVER_ERROR,
         SERVICE_UNAVAILABLE,
         SERIALIZATION,
-        UNKNOWN
+        UNKNOWN,
     }
 
-    enum class Local: DataError {
+    enum class Local : DataError {
         DISK_FULL,
         NOT_FOUND,
-        UNKNOWN
+        UNKNOWN,
     }
 }

@@ -44,103 +44,117 @@ fun ChirpTextField(
         BasicTextField(
             state = state,
             enabled = enabled,
-            lineLimits = if (singleLine) {
-                TextFieldLineLimits.SingleLine
-            } else TextFieldLineLimits.Default,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
-                color = if (enabled) {
-                    MaterialTheme.colorScheme.onSurface
-                } else MaterialTheme.colorScheme.extended.textPlaceholder,
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType
-            ),
+            lineLimits =
+                if (singleLine) {
+                    TextFieldLineLimits.SingleLine
+                } else {
+                    TextFieldLineLimits.Default
+                },
+            textStyle =
+                MaterialTheme.typography.bodyMedium.copy(
+                    color =
+                        if (enabled) {
+                            MaterialTheme.colorScheme.onSurface
+                        } else {
+                            MaterialTheme.colorScheme.extended.textPlaceholder
+                        },
+                ),
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = keyboardType,
+                ),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.extended.textPlaceholder),
             interactionSource = interactionSource,
             modifier = textFieldModifier,
             decorator = { innerBox ->
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.CenterStart
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
+                    contentAlignment = Alignment.CenterStart,
                 ) {
                     if (state.text.isEmpty() && placeholder != null) {
                         Text(
                             text = placeholder,
                             color = MaterialTheme.colorScheme.extended.textPlaceholder,
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                     innerBox()
                 }
-            }
+            },
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpTextFieldPreview() {
     ChirpTheme {
         ChirpTextField(
             state = rememberTextFieldState(),
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Email",
             placeholder = "test@test.com",
-            supportingText = "Please enter your email"
+            supportingText = "Please enter your email",
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpTextFieldEmptyPreview() {
     ChirpTheme {
         ChirpTextField(
             state = rememberTextFieldState(),
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Email",
             placeholder = "test@test.com",
-            supportingText = "Please enter your email"
+            supportingText = "Please enter your email",
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpTextFieldFilledPreview() {
     ChirpTheme {
         ChirpTextField(
-            state = rememberTextFieldState(
-                initialText = "test@test.com"
-            ),
-            modifier = Modifier
-                .width(300.dp),
+            state =
+                rememberTextFieldState(
+                    initialText = "test@test.com",
+                ),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Email",
             placeholder = "test@test.com",
-            supportingText = "Please enter your email"
+            supportingText = "Please enter your email",
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpTextFieldDisabledPreview() {
     ChirpTheme {
         ChirpTextField(
             state = rememberTextFieldState(),
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Email",
             placeholder = "test@test.com",
             supportingText = "Please enter your email",
@@ -151,18 +165,19 @@ fun ChirpTextFieldDisabledPreview() {
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun ChirpTextFieldErrorPreview() {
     ChirpTheme {
         ChirpTextField(
             state = rememberTextFieldState(),
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             title = "Email",
             placeholder = "test@test.com",
             supportingText = "This is not a valid email",
-            isError = true
+            isError = true,
         )
     }
 }
