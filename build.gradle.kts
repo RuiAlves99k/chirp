@@ -30,4 +30,15 @@ subprojects {
         }
     }
 }
+
+tasks.register("installGitHooks") {
+    description = "Configures git to use .githooks/ and makes hook scripts executable."
+    group = "setup"
+    doLast {
+        exec {
+            commandLine("git", "config", "core.hooksPath", ".githooks")
+        }
+        fileTree(".githooks").forEach { it.setExecutable(true) }
+        println("✅ Git hooks installed. Hooks will run from .githooks/")
+    }
 }

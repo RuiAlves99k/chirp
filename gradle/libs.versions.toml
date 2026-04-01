@@ -113,7 +113,7 @@ ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 #Login
-touchlab-kermit = {module = "co.touchlab:kermit", version.ref = "kermit" }
+touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 # DataStore
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
@@ -173,14 +173,14 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 
 [plugins]
 # Convention
-convention-android-application = { id = "com.ruialves.convention.android.application", version = "unspecified"}
-convention-android-application-compose = { id = "com.ruialves.convention.android.application.compose", version = "unspecified"}
-convention-cmp-application = { id = "com.ruialves.convention.cmp.application", version = "unspecified"}
-convention-kmp-library = { id = "com.ruialves.convention.kmp.library", version = "unspecified"}
-convention-cmp-library = { id = "com.ruialves.convention.cmp.library", version = "unspecified"}
-convention-cmp-feature = { id = "com.ruialves.convention.cmp.feature", version = "unspecified"}
-convention-buildkonfig = { id = "com.ruialves.convention.buildkonfig", version = "unspecified"}
-convention-room = { id = "com.ruialves.convention.room", version = "unspecified"}
+convention-android-application = { id = "com.ruialves.convention.android.application", version = "unspecified" }
+convention-android-application-compose = { id = "com.ruialves.convention.android.application.compose", version = "unspecified" }
+convention-cmp-application = { id = "com.ruialves.convention.cmp.application", version = "unspecified" }
+convention-kmp-library = { id = "com.ruialves.convention.kmp.library", version = "unspecified" }
+convention-cmp-library = { id = "com.ruialves.convention.cmp.library", version = "unspecified" }
+convention-cmp-feature = { id = "com.ruialves.convention.cmp.feature", version = "unspecified" }
+convention-buildkonfig = { id = "com.ruialves.convention.buildkonfig", version = "unspecified" }
+convention-room = { id = "com.ruialves.convention.room", version = "unspecified" }
 
 # Android
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -207,16 +207,12 @@ android-lint = { id = "com.android.lint", version.ref = "agp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
 
 [bundles]
-koin-common = [
-    "koin-core",
-    "koin-compose",
-    "koin-compose-viewmodel"
-]
+koin-common = ["koin-core", "koin-compose", "koin-compose-viewmodel"]
 
 ktor-common = [
-    "ktor-client-core",
-    "ktor-client-content-negotiation",
-    "ktor-serialization-kotlinx-json",
-    "ktor-client-auth",
-    "ktor-client-logging"
+  "ktor-client-core",
+  "ktor-client-content-negotiation",
+  "ktor-serialization-kotlinx-json",
+  "ktor-client-auth",
+  "ktor-client-logging",
 ]
