@@ -6,6 +6,8 @@ import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 internal fun Project.configureKotlinMultiplatform() {
+    pluginManager.apply("org.jlleitschuh.gradle.ktlint")
+
     extensions.configure<LibraryExtension> {
         namespace = this@configureKotlinMultiplatform.pathToPackageName()
     }
