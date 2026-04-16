@@ -39,48 +39,38 @@ fun ChirpButton(
     isLoading: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
-    val colors =
-        when (style) {
-            ChirpButtonStyle.PRIMARY ->
-                ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    disabledContentColor = MaterialTheme.colorScheme.extended.disabledFill,
-                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
-                )
-
-            ChirpButtonStyle.DESTRUCTIVE_PRIMARY ->
-                ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError,
-                    disabledContentColor = MaterialTheme.colorScheme.extended.disabledFill,
-                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
-                )
-
-            ChirpButtonStyle.SECONDARY ->
-                ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                    disabledContentColor = Color.Transparent,
-                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
-                )
-
-            ChirpButtonStyle.DESTRUCTIVE_SECONDARY ->
-                ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.colorScheme.error,
-                    disabledContentColor = Color.Transparent,
-                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
-                )
-
-            ChirpButtonStyle.TEXT ->
-                ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.colorScheme.tertiary,
-                    disabledContentColor = Color.Transparent,
-                    disabledContainerColor = MaterialTheme.colorScheme.extended.textDisabled,
-                )
-        }
+    val colors = when(style) {
+        ChirpButtonStyle.PRIMARY -> ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            disabledContainerColor = MaterialTheme.colorScheme.extended.disabledFill,
+            disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
+        )
+        ChirpButtonStyle.DESTRUCTIVE_PRIMARY -> ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.error,
+            contentColor = MaterialTheme.colorScheme.onError,
+            disabledContainerColor = MaterialTheme.colorScheme.extended.disabledFill,
+            disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
+        )
+        ChirpButtonStyle.SECONDARY -> ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.extended.textSecondary,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
+        )
+        ChirpButtonStyle.DESTRUCTIVE_SECONDARY -> ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.error,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
+        )
+        ChirpButtonStyle.TEXT -> ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.tertiary,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
+        )
+    }
 
     val defaultBorderStroke =
         BorderStroke(
