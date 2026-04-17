@@ -6,18 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,25 +25,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import chirp.core.designsystem.generated.resources.Res
-import chirp.core.designsystem.generated.resources.logo_chirp
 import com.ruialves.core.designsystem.components.brand.ChirpBrandLogo
 import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.designsystem.theme.extended
 import com.ruialves.core.presentation.util.DeviceConfiguration
 import com.ruialves.core.presentation.util.VerticalSpacer
 import com.ruialves.core.presentation.util.currentDeviceConfiguration
-import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.math.log
 
 @Composable
 fun ChirpAdaptiveFormLayout(
+    modifier: Modifier = Modifier,
     headerText: String,
     errorText: String? = null,
     logo: @Composable () -> Unit,
     formContent: @Composable ColumnScope.() -> Unit,
-    modifier: Modifier = Modifier
 ) {
     val configuration = currentDeviceConfiguration()
     val headerColor = if (configuration == DeviceConfiguration.MOBILE_LANDSCAPE) {
@@ -81,7 +75,9 @@ fun ChirpAdaptiveFormLayout(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = modifier
                     .fillMaxSize()
+                    .windowInsetsPadding(WindowInsets.navigationBars)
                     .consumeWindowInsets(WindowInsets.displayCutout)
+                    .consumeWindowInsets(WindowInsets.navigationBars)
             ) {
                 Column(
                     modifier = Modifier
@@ -93,14 +89,17 @@ fun ChirpAdaptiveFormLayout(
                     AuthHeaderSection(
                         headerText = headerText,
                         headerColor = headerColor,
-                        errorText = errorText
+                        errorText = errorText,
+                        headerTextAlignment = TextAlign.Start,
                     )
                 }
                 ChirpSurface(
                     modifier = modifier
                         .weight(1f)
                 ) {
+                    VerticalSpacer(16.dp)
                     formContent()
+                    VerticalSpacer(16.dp)
                 }
             }
         }
@@ -123,7 +122,6 @@ fun ChirpAdaptiveFormLayout(
                         .clip(RoundedCornerShape(32.dp))
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(horizontal = 24.dp, vertical = 32.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     AuthHeaderSection(
@@ -131,6 +129,7 @@ fun ChirpAdaptiveFormLayout(
                         headerColor = headerColor,
                         errorText = errorText
                     )
+                    formContent()
                 }
             }
         }
@@ -142,12 +141,13 @@ fun ColumnScope.AuthHeaderSection(
     headerText: String,
     headerColor: Color,
     errorText: String? = null,
+    headerTextAlignment: TextAlign = TextAlign.Center
 ) {
     Text(
         text = headerText,
         style = MaterialTheme.typography.titleLarge,
         color = headerColor,
-        textAlign = TextAlign.Center,
+        textAlign = headerTextAlignment,
         modifier = Modifier.fillMaxWidth()
     )
     AnimatedVisibility(
@@ -158,7 +158,7 @@ fun ColumnScope.AuthHeaderSection(
                 text = error,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.error,
-                textAlign = TextAlign.Center,
+                textAlign = headerTextAlignment,
                 modifier = Modifier.fillMaxWidth()
             )
         }
