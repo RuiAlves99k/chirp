@@ -64,7 +64,7 @@ fun RegisterScreen(
                 placeholder = stringResource(Res.string.username_placeholder),
                 title = stringResource(Res.string.username),
                 supportingText = state.usernameError?.asString(),
-                isError = state.emailError != null,
+                isError = state.usernameError != null,
                 onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
                 })
@@ -73,8 +73,8 @@ fun RegisterScreen(
                 state = state.emailTextState,
                 placeholder = stringResource(Res.string.email_placeholder),
                 title = stringResource(Res.string.email),
-                supportingText = state.emailError?.asString() ?: stringResource(Res.string.username_hint),
-                isError = state.usernameError != null,
+                supportingText = state.emailError?.asString(),
+                isError = state.emailError != null,
                 onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
                 })
