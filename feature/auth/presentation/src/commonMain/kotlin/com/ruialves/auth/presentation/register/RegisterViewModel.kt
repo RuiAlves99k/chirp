@@ -2,10 +2,18 @@ package com.ruialves.auth.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import chirp.feature.auth.presentation.generated.resources.Res
+import chirp.feature.auth.presentation.generated.resources.error_invalid_email
+import chirp.feature.auth.presentation.generated.resources.error_invalid_password
+import chirp.feature.auth.presentation.generated.resources.error_invalid_username
+import com.ruialves.auth.domain.EmailValidator
+import com.ruialves.core.domain.validation.PasswordValidator
+import com.ruialves.core.presentation.util.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 
 class RegisterViewModel : ViewModel() {
 
@@ -27,8 +35,54 @@ class RegisterViewModel : ViewModel() {
 
     fun onAction(action: RegisterAction) {
         when (action) {
+            RegisterAction.OnLoginClick -> validateFormInputs()
             else -> Unit
         }
+    }
+
+    private fun clearAllTextFieldsErrors() {
+        _state.update {
+            it.copy(
+                emailError = null,
+                usernameError = null,
+                passwordError = null,
+                registrationError = null
+            )
+        }
+    }
+
+
+    private fun validateFormInputs(): Boolean {
+        clearAllTextFieldsErrors()
+
+        val currentState = state.value
+        val email = currentState.emailTextState.text.toString().trim()
+        val username = currentState.usernameTextState.text.toString().trim()
+        val password = currentState.passwordTextState.text.toString()
+
+        val isEmailValid = EmailValidator.validate(email)
+        val passwordValidationState = PasswordValidator.validate(password)
+        val isUsernameValid = username.length in 3..25 && username.none { it.isWhitespace() }
+
+        val emailError = if (!isEmailValid) {
+            UiText.Resource(Res.string.error_invalid_email)
+        } else null
+        val usernameError = if (!isUsernameValid) {
+            UiText.Resource(Res.string.error_invalid_username)
+        } else null
+        val passwordError = if (!passwordValidationState.isValidPassword) {
+            UiText.Resource(Res.string.error_invalid_password)
+        } else null
+
+        _state.update {
+            it.copy(
+                emailError = emailError,
+                usernameError = usernameError,
+                passwordError = passwordError
+            )
+        }
+
+        return isEmailValid && passwordValidationState.isValidPassword && isUsernameValid
     }
 
 }
