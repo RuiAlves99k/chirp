@@ -1,0 +1,12 @@
+package com.ruialves.core.domain.auth
+
+import com.ruialves.core.domain.util.DataError
+import com.ruialves.core.domain.util.EmptyResult
+
+interface AuthService {
+    suspend fun register(
+        email: String,
+        username: String,
+        password: String
+    ): EmptyResult<DataError.Remote>
+}
