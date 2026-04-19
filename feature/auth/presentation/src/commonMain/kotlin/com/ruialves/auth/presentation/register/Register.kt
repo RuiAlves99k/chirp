@@ -32,18 +32,19 @@ import com.ruialves.core.presentation.util.ObserveAsEvents
 import com.ruialves.core.presentation.util.VerticalSpacer
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RegisterRoot(
-    viewModel: RegisterViewModel = viewModel(),
+    viewModel: RegisterViewModel = koinViewModel(),
     onRegisterSuccess: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    ObserveAsEvents(viewModel.events){ event ->
-        when(event) {
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
             is RegisterEvent.Success -> {
                 onRegisterSuccess(event.email)
             }
@@ -75,6 +76,7 @@ fun RegisterScreen(
                 title = stringResource(Res.string.username),
                 supportingText = state.usernameError?.asString(),
                 isError = state.usernameError != null,
+                singleLine = true,
                 onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
                 })
@@ -85,6 +87,7 @@ fun RegisterScreen(
                 title = stringResource(Res.string.email),
                 supportingText = state.emailError?.asString(),
                 isError = state.emailError != null,
+                singleLine = true,
                 onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
                 })
@@ -107,9 +110,13 @@ fun RegisterScreen(
             VerticalSpacer(16.dp)
 
             ChirpButton(
-                text = stringResource(Res.string.register), onClick = {
+                text = stringResource(Res.string.register),
+                onClick = {
                     onAction(RegisterAction.OnRegisterClick)
-                }, enabled = state.canRegister, isLoading = state.isRegistering, modifier = Modifier.fillMaxWidth()
+                },
+                enabled = state.canRegister,
+                isLoading = state.isRegistering,
+                modifier = Modifier.fillMaxWidth(),
             )
             VerticalSpacer(8.dp)
             ChirpButton(
