@@ -8,7 +8,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import chirp.feature.auth.presentation.generated.resources.Res
 import chirp.feature.auth.presentation.generated.resources.email_placeholder
 import chirp.feature.auth.presentation.generated.resources.username
@@ -17,7 +16,6 @@ import chirp.feature.auth.presentation.generated.resources.password
 import chirp.feature.auth.presentation.generated.resources.login
 import chirp.feature.auth.presentation.generated.resources.password_hint
 import chirp.feature.auth.presentation.generated.resources.register
-import chirp.feature.auth.presentation.generated.resources.username_hint
 import chirp.feature.auth.presentation.generated.resources.username_placeholder
 import chirp.feature.auth.presentation.generated.resources.welcome_to_chirp
 import com.ruialves.core.designsystem.components.brand.ChirpBrandLogo

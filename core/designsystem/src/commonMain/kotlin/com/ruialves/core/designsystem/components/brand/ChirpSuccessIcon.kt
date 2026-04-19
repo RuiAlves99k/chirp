@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import chirp.core.designsystem.generated.resources.Res
 import chirp.core.designsystem.generated.resources.success_checkmark
+import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.designsystem.theme.extended
 import org.jetbrains.compose.resources.vectorResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ChirpSuccessIcon(
@@ -19,4 +21,12 @@ fun ChirpSuccessIcon(
         tint = MaterialTheme.colorScheme.extended.success,
         modifier = modifier
     )
+}
+
+@Preview
+@Composable
+fun ChirpSuccessIconPreview(){
+    ChirpTheme {
+        ChirpSuccessIcon()
+    }
 }
