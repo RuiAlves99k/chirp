@@ -21,6 +21,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -60,17 +61,21 @@ class RegisterViewModel(
         .map { username -> UsernameValidator.validate(username) }
     private val isPasswordValidFlow = snapshotFlow { state.value.passwordTextState.text.toString() }
         .map { password -> PasswordValidator.validate(password).isValidPassword }
+    private val isRegisteringFlow = state
+        .map { it.isRegistering }
+        .distinctUntilChanged()
 
     private fun observeValidationStates() {
         combine(
             isEmailValidFlow,
             isUsernameValidFlow,
             isPasswordValidFlow,
-        ) { isEmailValid, isUsernameValid, isPasswordValid ->
+            isRegisteringFlow,
+        ) { isEmailValid, isUsernameValid, isPasswordValid, isRegistering ->
             val allValid = isEmailValid && isUsernameValid && isPasswordValid
             _state.update {
                 it.copy(
-                    canRegister = !it.isRegistering && allValid
+                    canRegister = !isRegistering && allValid,
                 )
             }
         }.launchIn(viewModelScope)
