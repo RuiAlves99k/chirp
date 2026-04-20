@@ -1,8 +1,6 @@
 package com.ruialves.auth.presentation.register_success
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +17,7 @@ import com.ruialves.core.designsystem.components.brand.ChirpSuccessIcon
 import com.ruialves.core.designsystem.components.buttons.ChirpButton
 import com.ruialves.core.designsystem.components.buttons.ChirpButtonStyle
 import com.ruialves.core.designsystem.components.layouts.ChirpAdaptiveResultLayout
-import com.ruialves.core.designsystem.components.layouts.ChirpSimpleSuccessLayout
+import com.ruialves.core.designsystem.components.layouts.ChirpSimpleResultLayout
 import com.ruialves.core.designsystem.components.layouts.ChirpSnackbarScaffold
 import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.presentation.util.ObserveAsEvents
@@ -63,7 +61,7 @@ fun RegisterSuccessScreen(
         snackbarHostState = snackbarHostState
     ) {
         ChirpAdaptiveResultLayout {
-            ChirpSimpleSuccessLayout(
+            ChirpSimpleResultLayout(
                 title = stringResource(Res.string.account_successfully_created),
                 description = stringResource(Res.string.verification_email_sent_to_x, state.registerEmail),
                 icon = { ChirpSuccessIcon() },
