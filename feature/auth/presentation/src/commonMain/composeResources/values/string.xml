@@ -17,4 +17,5 @@
     <string name="account_successfully_created">Chirp successfully created!</string>
     <string name="verification_email_sent_to_x">We've sent verification email to %1$s</string>
     <string name="resend_verification_email">Resend verification email</string>
+    <string name="resent_verification_email">Resent verification email</string>
 </resources>

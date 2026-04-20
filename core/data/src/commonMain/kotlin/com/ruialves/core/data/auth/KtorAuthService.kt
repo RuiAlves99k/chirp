@@ -1,6 +1,7 @@
 package com.ruialves.core.data.auth
 
 import com.ruialves.core.data.dto.requests.RegisterRequest
+import com.ruialves.core.data.dto.requests.ResendEmailRequest
 import com.ruialves.core.data.networking.post
 import com.ruialves.core.domain.auth.AuthService
 import com.ruialves.core.domain.util.DataError
@@ -22,6 +23,15 @@ class KtorAuthService(
                 email = email,
                 username = username,
                 password = password
+            )
+        )
+    }
+
+    override suspend fun resendVerificationEmail(email: String): EmptyResult<DataError.Remote> {
+        return httpClient.post(
+            route = "/auth/resend-verification",
+            body = ResendEmailRequest(
+                email = email
             )
         )
     }
