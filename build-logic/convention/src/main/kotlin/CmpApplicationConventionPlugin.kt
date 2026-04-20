@@ -14,6 +14,7 @@ class CmpApplicationConventionPlugin: Plugin<Project> {
                 apply("org.jetbrains.compose")
                 apply("org.jetbrains.kotlin.plugin.compose")
                 apply("org.jlleitschuh.gradle.ktlint")
+                apply("org.jetbrains.kotlin.plugin.serialization")
             }
 
             configureAndroidTarget()
