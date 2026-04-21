@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.ruialves.chirp.convention.configureKotlinAndroid
 import com.ruialves.chirp.convention.libs
 import org.gradle.api.Plugin
@@ -22,6 +23,11 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     targetSdk = libs.findVersion("projectTargetSdkVersion").get().toString().toInt()
                     versionCode = libs.findVersion("projectVersionCode").get().toString().toInt()
                     versionName = libs.findVersion("projectVersionName").get().toString()
+
+                    val gradleLocalProperties = gradleLocalProperties(rootDir, providers)
+                    val baseUrl = gradleLocalProperties.getProperty("BASE_URL")
+                        ?: throw IllegalArgumentException("Missing BASE_URL in the properties")
+                    manifestPlaceholders["deepLinkHost"] = baseUrl
                 }
                 packaging {
                     resources {
