@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.ruialves.auth.presentation.email_verification.EmailVerificationRoot
+import com.ruialves.auth.presentation.login.LoginRoot
 import com.ruialves.auth.presentation.register.RegisterRoot
 import com.ruialves.auth.presentation.register_success.RegisterSuccessRoot
 import com.ruialves.feature.auth.presentation.BuildKonfig
@@ -15,12 +16,36 @@ fun NavGraphBuilder.authGraph(
     onLoginSuccess: () -> Unit,
 ) {
     navigation<AuthGraphRoutes.Graph>(
-        startDestination = AuthGraphRoutes.Register
+        startDestination = AuthGraphRoutes.Login
     ){
+        composable<AuthGraphRoutes.Login> {
+            LoginRoot(
+                onLoginSuccess = onLoginSuccess,
+                onForgotPasswordClick = {
+                    navController.navigate(AuthGraphRoutes.ForgotPassword)
+                },
+                onCreateAccountClick = {
+                    navController.navigate(AuthGraphRoutes.Register) {
+                        restoreState = true
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
         composable<AuthGraphRoutes.Register> {
             RegisterRoot(
                 onRegisterSuccess = {
                     navController.navigate(AuthGraphRoutes.RegisterSuccess(it))
+                },
+                onLoginClick = {
+                    navController.navigate(AuthGraphRoutes.Login) {
+                        popUpTo (AuthGraphRoutes.Register) {
+                            inclusive = true
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
             )
         }

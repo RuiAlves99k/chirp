@@ -3,6 +3,7 @@ package com.ruialves.core.designsystem.components.buttons
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,31 +41,35 @@ fun ChirpButton(
     isLoading: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
-    val colors = when(style) {
+    val colors = when (style) {
         ChirpButtonStyle.PRIMARY -> ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
             disabledContainerColor = MaterialTheme.colorScheme.extended.disabledFill,
             disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
         )
+
         ChirpButtonStyle.DESTRUCTIVE_PRIMARY -> ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.error,
             contentColor = MaterialTheme.colorScheme.onError,
             disabledContainerColor = MaterialTheme.colorScheme.extended.disabledFill,
             disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
         )
+
         ChirpButtonStyle.SECONDARY -> ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.extended.textSecondary,
             disabledContainerColor = Color.Transparent,
             disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
         )
+
         ChirpButtonStyle.DESTRUCTIVE_SECONDARY -> ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.error,
             disabledContainerColor = Color.Transparent,
             disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
         )
+
         ChirpButtonStyle.TEXT -> ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.tertiary,
@@ -99,18 +104,29 @@ fun ChirpButton(
             else -> null
         }
 
+    val contentPadding = when {
+        style == ChirpButtonStyle.TEXT -> PaddingValues(0.dp)
+        else -> ButtonDefaults.ContentPadding
+    }
+
+    val padding = when {
+        style == ChirpButtonStyle.TEXT -> 0.dp
+        else -> 6.dp
+    }
+
     Button(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
         shape = RoundedCornerShape(8.dp),
+        contentPadding = contentPadding,
         colors = colors,
         border = border,
     ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .padding(6.dp)
+                .padding(padding)
         ) {
             CircularProgressIndicator(
                 modifier =
@@ -143,7 +159,7 @@ fun ChirpButton(
 
 @Composable
 @Preview
-fun ChirpPrimaryButtonPreview() {
+private fun ChirpPrimaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
             text = "Button!",
@@ -155,7 +171,7 @@ fun ChirpPrimaryButtonPreview() {
 
 @Composable
 @Preview
-fun ChirpDestructivePrimaryButtonPreview() {
+private fun ChirpDestructivePrimaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
             text = "Button!",
@@ -167,7 +183,7 @@ fun ChirpDestructivePrimaryButtonPreview() {
 
 @Composable
 @Preview
-fun ChirpSecondaryButtonPreview() {
+private fun ChirpSecondaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
             text = "Button!",
@@ -179,7 +195,7 @@ fun ChirpSecondaryButtonPreview() {
 
 @Composable
 @Preview
-fun ChirpDestructiveSecondaryButtonPreview() {
+private fun ChirpDestructiveSecondaryButtonPreview() {
     ChirpTheme {
         ChirpButton(
             text = "Button!",
@@ -191,7 +207,7 @@ fun ChirpDestructiveSecondaryButtonPreview() {
 
 @Composable
 @Preview
-fun ChirpTextButtonPreview() {
+private fun ChirpTextButtonPreview() {
     ChirpTheme {
         ChirpButton(
             text = "Button!",

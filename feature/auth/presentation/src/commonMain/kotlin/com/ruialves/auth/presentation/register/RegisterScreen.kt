@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.auth.presentation.generated.resources.Res
@@ -36,6 +37,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RegisterRoot(
     viewModel: RegisterViewModel = koinViewModel(),
     onRegisterSuccess: (String) -> Unit,
+    onLoginClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -50,7 +52,14 @@ fun RegisterRoot(
     }
 
     RegisterScreen(
-        state = state, onAction = viewModel::onAction, snackbarHostState = snackbarHostState
+        state = state,
+        onAction = { action ->
+            when (action) {
+                RegisterAction.OnLoginClick -> onLoginClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }, snackbarHostState = snackbarHostState
     )
 }
 
@@ -88,7 +97,9 @@ fun RegisterScreen(
                 singleLine = true,
                 onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
-                })
+                },
+                keyboardType = KeyboardType.Email
+            )
             VerticalSpacer(16.dp)
 
             ChirpPasswordTextField(
