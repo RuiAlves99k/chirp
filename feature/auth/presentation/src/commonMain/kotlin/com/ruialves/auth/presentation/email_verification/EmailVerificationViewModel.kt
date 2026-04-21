@@ -37,13 +37,8 @@ class EmailVerificationViewModel(
 
     fun onAction(action: EmailVerificationAction) {
         when (action) {
-            EmailVerificationAction.OnCloseClick -> {
-
-            }
-
-            EmailVerificationAction.OnLoginClick -> {
-
-            }
+            EmailVerificationAction.OnCloseClick,
+            EmailVerificationAction.OnLoginClick -> Unit
         }
     }
 

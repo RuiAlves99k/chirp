@@ -26,6 +26,7 @@ import com.ruialves.core.designsystem.components.layouts.ChirpAdaptiveFormLayout
 import com.ruialves.core.designsystem.components.textfields.ChirpPasswordTextField
 import com.ruialves.core.designsystem.components.textfields.ChirpTextField
 import com.ruialves.core.designsystem.theme.ChirpTheme
+import com.ruialves.core.presentation.util.ObserveAsEvents
 import com.ruialves.core.presentation.util.VerticalSpacer
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -40,10 +41,16 @@ fun LoginRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            LoginEvent.Success -> onLoginSuccess()
+        }
+    }
+
     LoginScreen(
         state = state,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 LoginAction.OnForgotPasswordClick -> onForgotPasswordClick()
                 LoginAction.OnSignUpClick -> onCreateAccountClick()
                 else -> Unit

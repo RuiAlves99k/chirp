@@ -2,8 +2,15 @@ package com.ruialves.core.domain.auth
 
 import com.ruialves.core.domain.util.DataError
 import com.ruialves.core.domain.util.EmptyResult
+import com.ruialves.core.domain.util.Result
 
 interface AuthService {
+
+    suspend fun login(
+        email: String,
+        password: String
+    ): Result<AuthInfo, DataError.Remote>
+
     suspend fun register(
         email: String,
         username: String,
