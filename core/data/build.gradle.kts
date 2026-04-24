@@ -15,16 +15,20 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
 
                 implementation(projects.core.domain)
+                implementation(projects.core.crypto)
 
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.touchlab.kermit)
                 implementation(libs.koin.core)
+
+                implementation(libs.datastore.preferences)
             }
         }
 
         androidMain {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
+                implementation(libs.koin.android)
             }
         }
 

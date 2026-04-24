@@ -9,11 +9,14 @@ import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        var shouldShowSplashScreen = true
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         setContent {
-            App()
+            App(onAuthenticationChecked = {
+                shouldShowSplashScreen = false
+            })
         }
     }
 }

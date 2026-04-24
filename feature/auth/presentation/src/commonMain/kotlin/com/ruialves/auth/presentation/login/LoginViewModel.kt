@@ -8,6 +8,7 @@ import chirp.feature.auth.presentation.generated.resources.error_email_not_verif
 import chirp.feature.auth.presentation.generated.resources.error_invalid_credentials
 import com.ruialves.auth.domain.EmailValidator
 import com.ruialves.core.domain.auth.AuthService
+import com.ruialves.core.domain.auth.SessionStorage
 import com.ruialves.core.domain.util.DataError
 import com.ruialves.core.domain.util.onFailure
 import com.ruialves.core.domain.util.onSuccess
@@ -27,7 +28,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val sessionStorage: SessionStorage,
 ) : ViewModel() {
 
     private var hasLoadedInitialData = false
@@ -110,13 +112,23 @@ class LoginViewModel(
                 password = password
             )
                 .onSuccess { authInfo ->
-                    _state.update {
-                        it.copy(
-                            isLoggingIn = false,
-                        )
-                    }
-
-                    eventChannel.send(LoginEvent.Success)
+                    sessionStorage.set(authInfo)
+                        .onSuccess {
+                            _state.update {
+                                it.copy(
+                                    isLoggingIn = false,
+                                )
+                            }
+                            eventChannel.send(LoginEvent.Success)
+                        }
+                        .onFailure { error ->
+                            _state.update {
+                                it.copy(
+                                    error = error.toUiText(),
+                                    isLoggingIn = false,
+                                )
+                            }
+                        }
                 }
                 .onFailure { error ->
                     val errorMessage = when (error) {
