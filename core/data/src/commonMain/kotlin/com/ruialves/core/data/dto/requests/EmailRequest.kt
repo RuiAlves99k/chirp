@@ -3,6 +3,6 @@ package com.ruialves.core.data.dto.requests
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResendEmailRequest(
+data class EmailRequest(
     val email: String
 )

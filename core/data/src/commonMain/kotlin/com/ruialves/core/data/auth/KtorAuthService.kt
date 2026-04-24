@@ -3,7 +3,7 @@ package com.ruialves.core.data.auth
 import com.ruialves.core.data.dto.AuthInfoSerializable
 import com.ruialves.core.data.dto.requests.LoginRequest
 import com.ruialves.core.data.dto.requests.RegisterRequest
-import com.ruialves.core.data.dto.requests.ResendEmailRequest
+import com.ruialves.core.data.dto.requests.EmailRequest
 import com.ruialves.core.data.mappers.toDomain
 import com.ruialves.core.data.networking.get
 import com.ruialves.core.data.networking.post
@@ -52,7 +52,7 @@ class KtorAuthService(
     override suspend fun resendVerificationEmail(email: String): EmptyResult<DataError.Remote> {
         return httpClient.post(
             route = "/auth/resend-verification",
-            body = ResendEmailRequest(
+            body = EmailRequest(
                 email = email
             )
         )
@@ -62,6 +62,15 @@ class KtorAuthService(
         return httpClient.get(
             route = "/auth/verify",
             queryParams = mapOf("token" to token)
+        )
+    }
+
+    override suspend fun forgotPassword(email: String): EmptyResult<DataError.Remote> {
+        return httpClient.post<EmailRequest, Unit>(
+            route = "/auth/forgot-password",
+            body = EmailRequest(
+                email = email
+            )
         )
     }
 
