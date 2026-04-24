@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ruialves.core.designsystem.components.buttons.ChirpButton
 import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.presentation.util.ObserveAsEvents
