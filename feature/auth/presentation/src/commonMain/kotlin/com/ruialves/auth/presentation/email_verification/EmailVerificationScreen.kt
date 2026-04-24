@@ -1,5 +1,6 @@
 package com.ruialves.auth.presentation.email_verification
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -29,6 +30,7 @@ import com.ruialves.core.designsystem.components.buttons.ChirpButton
 import com.ruialves.core.designsystem.components.buttons.ChirpButtonStyle
 import com.ruialves.core.designsystem.components.layouts.ChirpAdaptiveResultLayout
 import com.ruialves.core.designsystem.components.layouts.ChirpSimpleResultLayout
+import com.ruialves.core.designsystem.components.layouts.ChirpSnackbarScaffold
 import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.designsystem.theme.extended
 import com.ruialves.core.presentation.util.VerticalSpacer
@@ -60,16 +62,20 @@ fun EmailVerificationScreen(
     state: EmailVerificationState,
     onAction: (EmailVerificationAction) -> Unit,
 ) {
-    ChirpAdaptiveResultLayout {
-        when {
-            state.isVerifying -> VerifyingContent(
-                modifier = Modifier.fillMaxWidth()
-            )
-            state.isVerified -> VerifiedContent {
-                onAction(EmailVerificationAction.OnLoginClick)
-            }
-            else -> VerifiedFailedContent {
-                onAction(EmailVerificationAction.OnCloseClick)
+    ChirpSnackbarScaffold {
+        ChirpAdaptiveResultLayout {
+            when {
+                state.isVerifying -> VerifyingContent(
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                state.isVerified -> VerifiedContent {
+                    onAction(EmailVerificationAction.OnLoginClick)
+                }
+
+                else -> VerifiedFailedContent {
+                    onAction(EmailVerificationAction.OnCloseClick)
+                }
             }
         }
     }
