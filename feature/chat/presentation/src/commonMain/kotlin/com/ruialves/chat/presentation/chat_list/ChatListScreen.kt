@@ -6,34 +6,76 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ruialves.core.designsystem.components.buttons.ChirpButton
+import com.ruialves.core.designsystem.theme.ChirpTheme
+import com.ruialves.core.presentation.util.ObserveAsEvents
+import com.ruialves.core.presentation.util.VerticalSpacer
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object ChatListRoute
 
 @Composable
-fun ChatListScreenRoot(
+fun ChatListRoot(
     onLogout: () -> Unit,
+    viewModel: ChatListViewModel = koinViewModel(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event){
+            is ChatListEvent.Logout -> onLogout()
+        }
+    }
+
+    ChatListScreen(
+        state = state,
+        onAction = viewModel::onAction
+    )
+}
+
+@Composable
+fun ChatListScreen(
+    state: ChatListState,
+    onAction: (ChatListAction) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Chat List Screen",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary,
-        )
-
+        state.username?.let {
+            Text(
+                text = "Hi! $it",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
+        VerticalSpacer(16.dp)
         ChirpButton(
             text = "Logout",
             onClick = {
-                onLogout()
+                onAction(ChatListAction.Logout)
             }
         )
     }
 }
 
-@Serializable
-data object ChatListRoute
+@Preview
+@Composable
+private fun Preview() {
+    ChirpTheme {
+        ChatListScreen(
+            state = ChatListState(),
+            onAction = {}
+        )
+    }
+}
