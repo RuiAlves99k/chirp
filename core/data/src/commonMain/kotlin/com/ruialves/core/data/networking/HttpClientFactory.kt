@@ -1,10 +1,10 @@
 package com.ruialves.core.data.networking
 
 import com.ruialves.core.data.BuildKonfig
-import com.ruialves.core.data.auth.DataStoreSessionStorage
 import com.ruialves.core.data.dto.AuthInfoSerializable
 import com.ruialves.core.data.dto.requests.RefreshRequest
 import com.ruialves.core.data.mappers.toDomain
+import com.ruialves.core.domain.auth.SessionStorage
 import com.ruialves.core.domain.logging.ChirpLogger
 import com.ruialves.core.domain.util.onFailure
 import com.ruialves.core.domain.util.onSuccess
@@ -30,7 +30,7 @@ import kotlinx.serialization.json.Json
 
 class HttpClientFactory(
     private val chirpLogger: ChirpLogger,
-    private val sessionStorage: DataStoreSessionStorage,
+    private val sessionStorage: SessionStorage,
 ) {
     fun create(engine: HttpClientEngine): HttpClient {
         return HttpClient(engine) {

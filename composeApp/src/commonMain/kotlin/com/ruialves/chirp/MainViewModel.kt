@@ -2,7 +2,7 @@ package com.ruialves.chirp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ruialves.core.data.auth.DataStoreSessionStorage
+import com.ruialves.core.domain.auth.SessionStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val sessionStorage: DataStoreSessionStorage
+    private val sessionStorage: SessionStorage
 ): ViewModel() {
 
     private val _state = MutableStateFlow(MainState())
