@@ -10,6 +10,7 @@ import com.ruialves.chat.presentation.chat_list.ChatListRoute
 import com.ruialves.chirp.navigation.DeepLinkListener
 import com.ruialves.chirp.navigation.NavigationRoot
 import com.ruialves.core.designsystem.theme.ChirpTheme
+import com.ruialves.core.presentation.util.ObserveAsEvents
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -27,6 +28,18 @@ fun App(
     LaunchedEffect(state.isCheckingAuth) {
         if (!state.isCheckingAuth) {
             onAuthenticationChecked()
+        }
+    }
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event){
+            is MainEvent.OnSessionExpired -> {
+                navController.navigate(AuthGraphRoutes.Graph) {
+                    popUpTo(AuthGraphRoutes.Graph) {
+                        inclusive = false
+                    }
+                }
+            }
         }
     }
 

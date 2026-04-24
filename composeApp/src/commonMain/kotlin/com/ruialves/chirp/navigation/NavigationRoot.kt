@@ -10,7 +10,10 @@ import com.ruialves.chat.presentation.chat_list.ChatListRoot
 import com.ruialves.chat.presentation.chat_list.ChatListRoute
 
 @Composable
-fun NavigationRoot(navController: NavHostController, startDestination: Any) {
+fun NavigationRoot(
+    navController: NavHostController,
+    startDestination: Any,
+) {
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -26,15 +29,7 @@ fun NavigationRoot(navController: NavHostController, startDestination: Any) {
             }
         )
         composable<ChatListRoute> {
-            ChatListRoot(
-                onLogout = {
-                    navController.navigate(AuthGraphRoutes.Graph) {
-                        popUpTo(ChatListRoute) {
-                            inclusive = true
-                        }
-                    }
-                }
-            )
+            ChatListRoot()
         }
     }
 }

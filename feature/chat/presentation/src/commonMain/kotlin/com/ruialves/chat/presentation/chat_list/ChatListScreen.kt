@@ -24,15 +24,11 @@ data object ChatListRoute
 
 @Composable
 fun ChatListRoot(
-    onLogout: () -> Unit,
     viewModel: ChatListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ObserveAsEvents(viewModel.events) { event ->
-        when(event){
-            is ChatListEvent.Logout -> onLogout()
-        }
     }
 
     ChatListScreen(

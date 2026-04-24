@@ -42,14 +42,7 @@ class ChatListViewModel(
         when (action) {
             ChatListAction.Logout -> {
                 viewModelScope.launch {
-                    sessionStorage
-                        .set(null)
-                        .onSuccess {
-                            channelEvent.send(ChatListEvent.Logout)
-                        }
-                        .onFailure {
-                            channelEvent.send(ChatListEvent.Logout)
-                        }
+                    sessionStorage.set(null)
                 }
             }
         }
