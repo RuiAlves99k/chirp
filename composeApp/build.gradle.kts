@@ -10,6 +10,8 @@ kotlin {
             implementation(libs.androidx.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
 
+            implementation(libs.core.splashscreen)
+
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
