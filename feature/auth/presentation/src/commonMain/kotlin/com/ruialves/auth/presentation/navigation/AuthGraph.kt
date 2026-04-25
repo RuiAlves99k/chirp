@@ -10,6 +10,7 @@ import com.ruialves.auth.presentation.forgot_password.ForgotPasswordRoot
 import com.ruialves.auth.presentation.login.LoginRoot
 import com.ruialves.auth.presentation.register.RegisterRoot
 import com.ruialves.auth.presentation.register_success.RegisterSuccessRoot
+import com.ruialves.auth.presentation.reset_password.ResetPasswordRoot
 import com.ruialves.feature.auth.presentation.BuildKonfig
 
 fun NavGraphBuilder.authGraph(
@@ -85,6 +86,19 @@ fun NavGraphBuilder.authGraph(
         }
         composable<AuthGraphRoutes.ForgotPassword> {
             ForgotPasswordRoot()
+        }
+        composable<AuthGraphRoutes.ResetPassword>(
+            deepLinks = listOf(
+                navDeepLink {
+                    this.uriPattern = "https://${BuildKonfig.BASE_URL}/api/auth/reset-password?token={token}"
+                },
+                navDeepLink {
+                    this.uriPattern = "chirp://${BuildKonfig.BASE_URL}/api/auth/reset-password?token={token}"
+                },
+            )
+        ) {
+            ResetPasswordRoot(
+            )
         }
     }
 }

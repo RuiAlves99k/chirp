@@ -31,4 +31,9 @@
     <string name="close">Close</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="create_account">Create account</string>
+    <string name="set_new_password">Set new password</string>
+    <string name="new_password">New Password</string>
+    <string name="error_reset_password_token_invalid">It seems like the reset password link is not valid or has expired. Please request a new email.</string>
+    <string name="reset_password_successfully">Your password has been changed.</string>
+    <string name="error_same_password">The new password can't be equal to the old one</string>
 </resources>

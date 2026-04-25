@@ -34,12 +34,39 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="${deepLinkHost}"
-                    android:host="chirp.rui-alves.com"
-                    android:pathPrefix="/api/auth/verify"/>
+                <data
+                    android:host="${deepLinkHost}"
+                    android:pathPrefix="/api/auth/verify"
+                    android:scheme="chirp" />
+            </intent-filter>
+
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="${deepLinkHost}"
+                    android:pathPrefix="/api/auth/reset-password"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="${deepLinkHost}"
+                    android:pathPrefix="/api/auth/reset-password"
+                    android:scheme="chirp" />
             </intent-filter>
         </activity>
     </application>
