@@ -29,6 +29,18 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         ?: throw IllegalArgumentException("Missing BASE_URL in the properties")
                     manifestPlaceholders["deepLinkHost"] = baseUrl
                 }
+
+                flavorDimensions += "environment"
+                productFlavors {
+                    create("alpha") {
+                        dimension = "environment"
+                        applicationIdSuffix = ".alpha"
+                    }
+                    create("prod") {
+                        dimension = "environment"
+                    }
+                }
+
                 packaging {
                     resources {
                         excludes += "/META-INF/{AL2.0,LGPL2.1}"

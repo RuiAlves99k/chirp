@@ -1,9 +1,18 @@
 package com.ruialves.core.data.logging
 
 import co.touchlab.kermit.Logger
+import co.touchlab.kermit.Severity
+import com.ruialves.core.data.BuildKonfig
 import com.ruialves.core.domain.logging.ChirpLogger
 
 object KermitLogger : ChirpLogger {
+
+    init {
+        Logger.setMinSeverity(
+            if (BuildKonfig.IS_DEBUG) Severity.Debug else Severity.Warn
+        )
+    }
+
     override fun debug(message: String) {
         Logger.d(message)
     }
