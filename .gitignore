@@ -18,3 +18,11 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
+
+# Private keys — never commit
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
