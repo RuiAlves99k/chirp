@@ -3,9 +3,12 @@ package com.ruialves.core.data.logging
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import com.ruialves.core.data.BuildKonfig
+import com.ruialves.core.domain.crash.CrashReporter
 import com.ruialves.core.domain.logging.ChirpLogger
 
-object KermitLogger : ChirpLogger {
+class KermitLogger(
+    private val crashReporter: CrashReporter,
+) : ChirpLogger {
 
     init {
         Logger.setMinSeverity(
@@ -23,6 +26,7 @@ object KermitLogger : ChirpLogger {
 
     override fun warn(message: String) {
         Logger.w(message)
+        crashReporter.addBreadcrumb(message, category = "warning")
     }
 
     override fun error(
@@ -30,5 +34,10 @@ object KermitLogger : ChirpLogger {
         throwable: Throwable?,
     ) {
         Logger.e(message, throwable)
+        if (throwable != null) {
+            crashReporter.captureException(throwable)
+        } else {
+            crashReporter.captureMessage(message)
+        }
     }
 }

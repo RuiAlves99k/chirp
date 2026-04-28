@@ -49,6 +49,8 @@ coil-network = "3.3.0"
 moko = "0.19.1"
 buildkonfig = "0.17.1"
 kermit = "2.1.0"
+sentry-kmp = "0.25.0"
+sentry-kmp-plugin = "0.12.0"
 
 # Code quality
 ktlint-gradle = "12.3.0"
@@ -116,6 +118,10 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 
 #Login
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+
+# Sentry
+sentry-kotlin-multiplatform = { module = "io.sentry:sentry-kotlin-multiplatform", version.ref = "sentry-kmp" }
+sentry-kmp-gradlePlugin = { group = "io.sentry.kotlin.multiplatform", name = "io.sentry.kotlin.multiplatform.gradle.plugin", version.ref = "sentry-kmp-plugin" }
 
 # DataStore
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
@@ -205,6 +211,7 @@ room = { id = "androidx.room", version.ref = "room" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+sentry-kmp = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry-kmp-plugin" }
 android-lint = { id = "com.android.lint", version.ref = "agp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
 

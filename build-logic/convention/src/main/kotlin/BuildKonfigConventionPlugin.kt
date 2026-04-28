@@ -35,6 +35,12 @@ class BuildKonfigConventionPlugin : Plugin<Project> {
                     buildConfigField(FieldSpec.Type.BOOLEAN, "IS_DEBUG", isAlpha.toString())
                     buildConfigField(FieldSpec.Type.STRING, "APP_ID_SUFFIX", if (isAlpha) ".alpha" else "")
                     buildConfigField(FieldSpec.Type.STRING, "FLAVOR_NAME", flavor)
+
+                    val sentryDsnAndroid = gradleLocalProperties.getProperty("SENTRY_DSN_ANDROID") ?: ""
+                    buildConfigField(FieldSpec.Type.STRING, "SENTRY_DSN_ANDROID", sentryDsnAndroid)
+
+                    val sentryDsnIos = gradleLocalProperties.getProperty("SENTRY_DSN_IOS") ?: ""
+                    buildConfigField(FieldSpec.Type.STRING, "SENTRY_DSN_IOS", sentryDsnIos)
                 }
             }
         }

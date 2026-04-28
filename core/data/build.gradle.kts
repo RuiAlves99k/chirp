@@ -1,6 +1,21 @@
 plugins {
     alias(libs.plugins.convention.kmp.library)
     alias(libs.plugins.convention.buildkonfig)
+    alias(libs.plugins.sentry.kmp)
+}
+
+sentryKmp {
+    autoInstall {
+        commonMain {
+            enabled = true
+        }
+        cocoapods {
+            enabled = false
+        }
+    }
+    linker {
+        xcodeprojPath = "${rootDir}/iosApp/iosApp.xcodeproj"
+    }
 }
 
 kotlin {
@@ -22,6 +37,7 @@ kotlin {
                 implementation(libs.koin.core)
 
                 implementation(libs.datastore.preferences)
+                implementation(libs.sentry.kotlin.multiplatform)
             }
         }
 
