@@ -6,9 +6,9 @@ import com.ruialves.core.data.BuildKonfig
 import com.ruialves.core.domain.crash.CrashReporter
 import com.ruialves.core.domain.logging.ChirpLogger
 
-class KermitLogger(
+class KermitLoggerBackend(
     private val crashReporter: CrashReporter,
-) : ChirpLogger {
+) : ChirpLogger.Backend {
 
     init {
         Logger.setMinSeverity(
@@ -16,28 +16,28 @@ class KermitLogger(
         )
     }
 
-    override fun debug(message: String) {
-        Logger.d(message)
-    }
+    override fun log(level: ChirpLogger.Level, tag: String?, message: String, throwable: Throwable?) {
+        val logTag = tag ?: DEFAULT_TAG
 
-    override fun info(message: String) {
-        Logger.i(message)
-    }
-
-    override fun warn(message: String) {
-        Logger.w(message)
-        crashReporter.addBreadcrumb(message, category = "warning")
-    }
-
-    override fun error(
-        message: String,
-        throwable: Throwable?,
-    ) {
-        Logger.e(message, throwable)
-        if (throwable != null) {
-            crashReporter.captureException(throwable)
-        } else {
-            crashReporter.captureMessage(message)
+        when (level) {
+            ChirpLogger.Level.DEBUG -> Logger.d(tag = logTag) { message }
+            ChirpLogger.Level.INFO -> Logger.i(tag = logTag) { message }
+            ChirpLogger.Level.WARN -> {
+                Logger.w(tag = logTag) { message }
+                crashReporter.addBreadcrumb(message, category = "warning")
+            }
+            ChirpLogger.Level.ERROR -> {
+                Logger.e(tag = logTag, throwable = throwable) { message }
+                if (throwable != null) {
+                    crashReporter.captureException(throwable)
+                } else {
+                    crashReporter.captureMessage(message)
+                }
+            }
         }
+    }
+
+    companion object {
+        private const val DEFAULT_TAG = "Chirp"
     }
 }

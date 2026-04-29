@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
 
 class HttpClientFactory(
-    private val chirpLogger: ChirpLogger,
     private val sessionStorage: SessionStorage,
 ) {
     fun create(engine: HttpClientEngine): HttpClient {
@@ -50,7 +49,7 @@ class HttpClientFactory(
                 logger =
                     object : Logger {
                         override fun log(message: String) {
-                            chirpLogger.debug(message)
+                            ChirpLogger(TAG).d { message }
                         }
                     }
                 level = LogLevel.ALL
@@ -108,5 +107,9 @@ class HttpClientFactory(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "HttpClient"
     }
 }

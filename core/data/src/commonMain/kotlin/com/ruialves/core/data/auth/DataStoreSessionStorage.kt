@@ -24,7 +24,6 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 class DataStoreSessionStorage(
     private val dataStore: DataStore<Preferences>,
     private val encryption: Encryption,
-    private val logger: ChirpLogger,
 ) : SessionStorage {
 
     private val authInfoKey = stringPreferencesKey("KEY_AUTH_INFO")
@@ -34,6 +33,7 @@ class DataStoreSessionStorage(
 
     companion object {
         private const val KEY_ALIAS = "chirp_auth"
+        private const val TAG = "SessionStorage"
     }
 
     override fun observeAuthInfo(): Flow<AuthInfo?> {
@@ -43,7 +43,7 @@ class DataStoreSessionStorage(
             val encryptedBytes = try {
                 Base64.decode(encryptedBase64)
             } catch (e: IllegalArgumentException) {
-                logger.error("Failed to decode Base64 auth info", e)
+                ChirpLogger(TAG).e(e) { "Failed to decode Base64 auth info" }
                 return@map null
             }
 
@@ -53,12 +53,12 @@ class DataStoreSessionStorage(
                         val jsonString = result.data.decodeToString()
                         json.decodeFromString<AuthInfoSerializable>(jsonString).toDomain()
                     } catch (e: Exception) {
-                        logger.error("Failed to deserialize auth info", e)
+                        ChirpLogger(TAG).e(e) { "Failed to deserialize auth info" }
                         null
                     }
                 }
                 is Result.Failure -> {
-                    logger.error("Failed to decrypt auth info: ${result.error}")
+                    ChirpLogger(TAG).e { "Failed to decrypt auth info: ${result.error}" }
                     null
                 }
             }
@@ -83,7 +83,7 @@ class DataStoreSessionStorage(
                 Result.Success(Unit)
             }
             is Result.Failure -> {
-                logger.error("Failed to encrypt auth info: ${result.error}")
+                ChirpLogger(TAG).e { "Failed to encrypt auth info: ${result.error}" }
                 Result.Failure(DataError.Local.UNKNOWN)
             }
         }

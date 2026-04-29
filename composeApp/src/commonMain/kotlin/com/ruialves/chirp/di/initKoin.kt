@@ -4,6 +4,7 @@ import com.ruialves.auth.presentation.di.authPresentationModule
 import com.ruialves.chat.presentation.di.chatPresentationModule
 import com.ruialves.core.data.di.coreDataModule
 import com.ruialves.core.domain.crash.CrashReporter
+import com.ruialves.core.domain.logging.ChirpLogger
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -19,4 +20,5 @@ fun initKoin(config: KoinAppDeclaration? = null) {
     }
 
     koinApp.koin.get<CrashReporter>().initialize()
+    ChirpLogger.install(KermitLoggerBackend(crashReporter = crashReporter))
 }
