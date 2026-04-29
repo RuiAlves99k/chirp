@@ -2,6 +2,7 @@ package com.ruialves.chirp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ruialves.core.domain.analytics.AnalyticsAdapter
 import com.ruialves.core.domain.auth.SessionStorage
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val sessionStorage: SessionStorage
+    private val sessionStorage: SessionStorage,
+    private val analyticsAdapter: AnalyticsAdapter,
 ) : ViewModel() {
 
     private val eventChannel = Channel<MainEvent>()

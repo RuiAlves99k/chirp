@@ -3,11 +3,11 @@ import ComposeApp
 
 @main
 struct iOSApp: App {
-    
+
     init() {
-        InitKoinKt.doInitKoin()
+        InitKoinKt.doInitKoin(analyticsAdapter: MixpanelAnalyticsHandler(), config: nil)
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()

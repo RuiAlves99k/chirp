@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B356CA522FA0078D00920399 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = B356CA512FA0078D00920399 /* Sentry */; };
+		B356CA682FA0EBAD00920399 /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = B356CA672FA0EBAD00920399 /* Mixpanel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B356CA682FA0EBAD00920399 /* Mixpanel in Frameworks */,
 				B356CA522FA0078D00920399 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +105,7 @@
 			name = iosApp;
 			packageProductDependencies = (
 				B356CA512FA0078D00920399 /* Sentry */,
+				B356CA672FA0EBAD00920399 /* Mixpanel */,
 			);
 			productName = iosApp;
 			productReference = 639ACC9ED02840E2F8664F5C /* Chirp.app */;
@@ -134,6 +137,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B356CA502FA0078D00920399 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				B356CA662FA0EBAD00920399 /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7D4747DF849588A4032280FB /* Products */;
@@ -616,6 +620,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		B356CA662FA0EBAD00920399 /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -623,6 +635,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B356CA502FA0078D00920399 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;
+		};
+		B356CA672FA0EBAD00920399 /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B356CA662FA0EBAD00920399 /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -41,6 +41,9 @@ class BuildKonfigConventionPlugin : Plugin<Project> {
 
                     val sentryDsnIos = gradleLocalProperties.getProperty("SENTRY_DSN_IOS") ?: ""
                     buildConfigField(FieldSpec.Type.STRING, "SENTRY_DSN_IOS", sentryDsnIos)
+
+                    val mixpanelToken = gradleLocalProperties.getProperty("MIXPANEL_TOKEN") ?: ""
+                    buildConfigField(FieldSpec.Type.STRING, "MIXPANEL_TOKEN", mixpanelToken)
                 }
             }
         }

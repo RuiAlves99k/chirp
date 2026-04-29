@@ -13,4 +13,5 @@ actual val platformCoreDataModule = module {
     single<HttpClientEngine> { Darwin.create() }
     single<DataStore<Preferences>> { createDataStore() }
     single<String>(named("sentryDsn")) { BuildKonfig.SENTRY_DSN_IOS }
+    single<String>(named("mixpanelToken")) { BuildKonfig.MIXPANEL_TOKEN }
 }

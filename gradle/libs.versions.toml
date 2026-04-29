@@ -51,6 +51,7 @@ buildkonfig = "0.17.1"
 kermit = "2.1.0"
 sentry-kmp = "0.25.0"
 sentry-kmp-plugin = "0.12.0"
+mixpanel-android = "8.5.1"
 
 # Code quality
 ktlint-gradle = "12.3.0"
@@ -122,6 +123,9 @@ touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 # Sentry
 sentry-kotlin-multiplatform = { module = "io.sentry:sentry-kotlin-multiplatform", version.ref = "sentry-kmp" }
 sentry-kmp-gradlePlugin = { group = "io.sentry.kotlin.multiplatform", name = "io.sentry.kotlin.multiplatform.gradle.plugin", version.ref = "sentry-kmp-plugin" }
+
+# Mixpanel
+mixpanel-android = { module = "com.mixpanel.android:mixpanel-android", version.ref = "mixpanel-android" }
 
 # DataStore
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }

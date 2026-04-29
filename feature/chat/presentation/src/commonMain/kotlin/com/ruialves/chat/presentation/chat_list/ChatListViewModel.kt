@@ -2,6 +2,7 @@ package com.ruialves.chat.presentation.chat_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ruialves.core.domain.analytics.AnalyticsAdapter
 import com.ruialves.core.domain.auth.SessionStorage
 import com.ruialves.core.domain.util.onFailure
 import com.ruialves.core.domain.util.onSuccess
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ChatListViewModel(
-    private val sessionStorage: SessionStorage
+    private val sessionStorage: SessionStorage,
+    private val analyticsAdapter: AnalyticsAdapter,
 ) : ViewModel() {
 
     private var hasLoadedInitialData = false
@@ -28,6 +30,7 @@ class ChatListViewModel(
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
+                analyticsAdapter.trackEvent("screen_view", mapOf("screen" to "chat_list"))
                 loadUser()
                 hasLoadedInitialData = true
             }

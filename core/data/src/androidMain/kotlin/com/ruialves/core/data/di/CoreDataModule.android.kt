@@ -4,6 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.ruialves.core.data.auth.createDataStore
 import com.ruialves.core.data.BuildKonfig
+import com.ruialves.core.data.analytics.MixpanelAnalyticsAdapter
+import com.ruialves.core.domain.analytics.AnalyticsAdapter
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.android.ext.koin.androidContext
@@ -18,4 +20,6 @@ actual val platformCoreDataModule = module {
         createDataStore(androidContext())
     }
     single<String>(named("sentryDsn")) { BuildKonfig.SENTRY_DSN_ANDROID }
+    single<String>(named("mixpanelToken")) { BuildKonfig.MIXPANEL_TOKEN }
+    single<AnalyticsAdapter> { MixpanelAnalyticsAdapter(context = androidContext()) }
 }
