@@ -1,4 +1,4 @@
-package com.ruialves.crypto
+package com.ruialves.libs.encryption
 
 import com.ruialves.core.domain.util.Error
 

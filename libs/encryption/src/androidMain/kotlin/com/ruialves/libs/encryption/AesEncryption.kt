@@ -1,4 +1,4 @@
-package com.ruialves.crypto
+package com.ruialves.libs.encryption
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

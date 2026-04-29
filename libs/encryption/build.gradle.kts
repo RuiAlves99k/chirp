@@ -9,18 +9,12 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 implementation(projects.core.domain)
                 implementation(libs.koin.core)
-                implementation(libs.touchlab.kermit)
             }
         }
 
         androidMain {
             dependencies {
                 implementation(libs.androidx.security.crypto)
-            }
-        }
-
-        iosMain {
-            dependencies {
             }
         }
     }

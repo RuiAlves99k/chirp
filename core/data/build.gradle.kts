@@ -30,7 +30,7 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
 
                 implementation(projects.core.domain)
-                implementation(projects.core.crypto)
+                implementation(projects.libs.encryption)
 
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.touchlab.kermit)

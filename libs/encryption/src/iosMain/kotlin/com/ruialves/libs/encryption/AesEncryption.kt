@@ -1,8 +1,8 @@
 @file:OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 
-package com.ruialves.crypto
+package com.ruialves.libs.encryption
 
-import co.touchlab.kermit.Logger
+import com.ruialves.core.domain.logging.ChirpLogger
 import com.ruialves.core.domain.util.Result
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.BetaInteropApi
@@ -94,7 +94,7 @@ object AesEncryption : Encryption {
 
             Result.Success(iv + encrypted)
         } catch (e: Exception) {
-            Logger.e(e, TAG) { "Encrypt failed" }
+            ChirpLogger(TAG).e(e) { "Encrypt failed" }
             Result.Failure(EncryptionError.ENCRYPTION_FAILED)
         }
     }
@@ -116,7 +116,7 @@ object AesEncryption : Encryption {
 
             Result.Success(decrypted)
         } catch (e: Exception) {
-            Logger.e(e, TAG) { "Decrypt failed" }
+            ChirpLogger(TAG).e(e) { "Decrypt failed" }
             Result.Failure(EncryptionError.DECRYPTION_FAILED)
         }
     }

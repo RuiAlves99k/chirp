@@ -13,7 +13,7 @@ import com.ruialves.core.domain.logging.ChirpLogger
 import com.ruialves.core.domain.util.DataError
 import com.ruialves.core.domain.util.EmptyResult
 import com.ruialves.core.domain.util.Result
-import com.ruialves.crypto.Encryption
+import com.ruialves.libs.encryption.Encryption
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json

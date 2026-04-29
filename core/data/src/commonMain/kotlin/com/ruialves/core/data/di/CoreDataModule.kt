@@ -9,7 +9,7 @@ import com.ruialves.core.domain.auth.AuthService
 import com.ruialves.core.domain.auth.SessionStorage
 import com.ruialves.core.domain.crash.CrashReporter
 import com.ruialves.core.domain.logging.ChirpLogger
-import com.ruialves.crypto.di.coreCryptoModule
+import com.ruialves.libs.encryption.di.encryptionModule
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
@@ -20,7 +20,7 @@ expect val platformCoreDataModule: Module
 
 val coreDataModule = module {
     includes(platformCoreDataModule)
-    includes(coreCryptoModule)
+    includes(encryptionModule)
     single<CrashReporter> { SentryCrashReporter(dsn = get(named("sentryDsn"))) }
     single<ChirpLogger> { KermitLogger(crashReporter = get()) }
     single {
