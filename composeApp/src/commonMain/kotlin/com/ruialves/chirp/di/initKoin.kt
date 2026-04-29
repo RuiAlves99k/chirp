@@ -8,6 +8,7 @@ import com.ruialves.core.domain.analytics.AnalyticsAdapter
 import com.ruialves.core.domain.analytics.AnalyticsConfig
 import com.ruialves.core.domain.crash.CrashReporter
 import com.ruialves.core.domain.logging.ChirpLogger
+import com.ruialves.core.presentation.di.corePresentationModule
 import com.ruialves.libs.identification.DeviceIdentification
 import com.ruialves.libs.identification.di.identificationModule
 import org.koin.core.context.startKoin
@@ -26,7 +27,8 @@ fun initKoin(
             identificationModule,
             authPresentationModule,
             appModule,
-            chatPresentationModule
+            chatPresentationModule,
+            corePresentationModule
         )
         if (analyticsAdapter != null) {
             modules(module { single<AnalyticsAdapter> { analyticsAdapter } })
