@@ -41,7 +41,7 @@ fun ChirpTextFieldLayout(
     }
 
     val textFieldModifier =
-        modifier
+        Modifier
             .fillMaxWidth()
             .background(
                 color =
