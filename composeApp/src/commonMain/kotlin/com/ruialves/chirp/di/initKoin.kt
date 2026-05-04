@@ -1,6 +1,7 @@
 package com.ruialves.chirp.di
 
 import com.ruialves.auth.presentation.di.authPresentationModule
+import com.ruialves.chat.data.di.chatDataModule
 import com.ruialves.chat.presentation.di.chatPresentationModule
 import com.ruialves.core.data.di.coreDataModule
 import com.ruialves.core.data.logging.KermitLoggerBackend
@@ -28,7 +29,8 @@ fun initKoin(
             authPresentationModule,
             appModule,
             chatPresentationModule,
-            corePresentationModule
+            corePresentationModule,
+            chatDataModule,
         )
         if (analyticsAdapter != null) {
             modules(module { single<AnalyticsAdapter> { analyticsAdapter } })
