@@ -102,7 +102,7 @@ class HttpClientFactory(
                         }.onFailure { _ ->
                             sessionStorage.set(null)
                         }
-                        return@refreshTokens bearerTokens
+                        bearerTokens
                     }
                 }
             }

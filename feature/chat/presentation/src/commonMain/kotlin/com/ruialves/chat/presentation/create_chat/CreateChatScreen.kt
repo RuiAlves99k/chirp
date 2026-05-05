@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.cancel
 import chirp.feature.chat.presentation.generated.resources.create_chat
+import com.ruialves.chat.domain.models.Chat
 import com.ruialves.chat.presentation.components.ChatParticipantSearchTextSection
 import com.ruialves.chat.presentation.components.ChatParticipantsSelectionSection
 import com.ruialves.chat.presentation.components.ManageChatButtonSection
@@ -31,6 +32,7 @@ import com.ruialves.core.designsystem.components.buttons.ChirpButtonStyle
 import com.ruialves.core.designsystem.components.dialogs.ChirpAdaptiveDialogSheetLayout
 import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.presentation.util.DeviceConfiguration
+import com.ruialves.core.presentation.util.ObserveAsEvents
 import com.ruialves.core.presentation.util.clearFocusOnTap
 import com.ruialves.core.presentation.util.currentDeviceConfiguration
 import org.jetbrains.compose.resources.stringResource
@@ -40,9 +42,18 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CreateChatRoot(
     onDismiss: () -> Unit,
+    onChatCreated: (Chat) -> Unit,
     viewModel: CreateChatViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event){
+            is CreateChatEvent.OnChatCreated -> {
+                onChatCreated(event.chat)
+            }
+        }
+    }
 
     ChirpAdaptiveDialogSheetLayout(
         onDismiss = onDismiss
@@ -138,7 +149,8 @@ fun CreateChatScreen(
                     style = ChirpButtonStyle.SECONDARY
                 )
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            error = state.createChatError?.asString()
         )
     }
 }
