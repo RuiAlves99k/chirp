@@ -8,4 +8,9 @@
     <string name="group_chat">Group chat</string>
     <string name="profile_settings">Profile settings</string>
     <string name="logout">Logout</string>
+    <string name="no_messages">No messages</string>
+    <string name="no_messages_subtitle">Create a new chat to start messaging</string>
+    <string name="do_you_want_logout">Do you want to log out?</string>
+    <string name="desc_do_you_want_logout">You will have to log in again to use the app.</string>
 </resources>
+

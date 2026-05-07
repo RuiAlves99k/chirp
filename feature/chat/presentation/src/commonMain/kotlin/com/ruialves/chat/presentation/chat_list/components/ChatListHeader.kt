@@ -39,7 +39,7 @@ import chirp.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun ChatListHeader(
-    localParticipantUi: ChatParticipantUi,
+    localParticipant: ChatParticipantUi?,
     isUserMenuOpen: Boolean,
     onUserAvatarClick: () -> Unit,
     onDismissMenu: () -> Unit,
@@ -67,7 +67,7 @@ fun ChatListHeader(
             )
             Spacer(Modifier.weight(1f))
             ProfileAvatarSection(
-                localParticipantUi = localParticipantUi,
+                localParticipant = localParticipant,
                 isUserMenuOpen = isUserMenuOpen,
                 onClick = onUserAvatarClick,
                 onDismissMenu = onDismissMenu,
@@ -80,7 +80,7 @@ fun ChatListHeader(
 
 @Composable
 private fun ProfileAvatarSection(
-    localParticipantUi: ChatParticipantUi,
+    localParticipant: ChatParticipantUi?,
     isUserMenuOpen: Boolean,
     onClick: () -> Unit,
     onDismissMenu: () -> Unit,
@@ -91,11 +91,13 @@ private fun ProfileAvatarSection(
     Box(
         modifier = modifier
     ) {
-        ChirpAvatarPhoto(
-            displayText = localParticipantUi.initials,
-            imageUrl = localParticipantUi.imageUrl,
-            onClick = onClick
-        )
+        localParticipant?.let {
+            ChirpAvatarPhoto(
+                displayText = localParticipant.initials,
+                imageUrl = localParticipant.imageUrl,
+                onClick = onClick
+            )
+        }
 
         DropdownMenu(
             expanded = isUserMenuOpen,
@@ -167,7 +169,7 @@ fun ChatListHeaderPreview() {
     ChirpTheme {
         ChatListHeader(
             modifier = Modifier.fillMaxSize(),
-            localParticipantUi = ChatParticipantUi(
+            localParticipant = ChatParticipantUi(
                 id = "1",
                 username = "Rui",
                 initials = "RU"

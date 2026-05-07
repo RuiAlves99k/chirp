@@ -1,6 +1,7 @@
 package com.ruialves.chat.presentation.chat_list.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,11 +42,15 @@ import kotlin.time.Clock
 fun ChatListItemUi(
     chat: ChatUi,
     isSelected: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickChat: () -> Unit,
 ) {
     val isGroupChat = chat.otherParticipants.size > 1
     Row(
         modifier = modifier
+            .clickable {
+                onClickChat()
+            }
             .height(IntrinsicSize.Min)
             .background(
                 color = if (isSelected) {
@@ -174,7 +179,8 @@ fun ChatListItemUiPreview(){
                 ),
                 lastMessageSenderUsername = "Lily"
             ),
-            isSelected = true
+            isSelected = true,
+            onClickChat = {}
         )
     }
 }
@@ -207,7 +213,8 @@ fun ChatListItemUiDarkPreview(){
                 ),
                 lastMessageSenderUsername = "Lily"
             ),
-            isSelected = true
+            isSelected = true,
+            onClickChat = {}
         )
     }
 }
