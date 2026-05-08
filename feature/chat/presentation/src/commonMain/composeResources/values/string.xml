@@ -12,5 +12,11 @@
     <string name="no_messages_subtitle">Create a new chat to start messaging</string>
     <string name="do_you_want_logout">Do you want to log out?</string>
     <string name="desc_do_you_want_logout">You will have to log in again to use the app.</string>
+    <string name="you">You</string>
+    <string name="sending">Sending...</string>
+    <string name="sent">Sent</string>
+    <string name="failed">Failed</string>
+    <string name="delete_for_everyone">Delete for everyone</string>
+    <string name="retry">Retry</string>
 </resources>
 

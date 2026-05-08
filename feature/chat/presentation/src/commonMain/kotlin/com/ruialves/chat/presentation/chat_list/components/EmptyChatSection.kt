@@ -10,9 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import chirp.core.designsystem.generated.resources.empty_chat
 import chirp.feature.chat.presentation.generated.resources.Res
-import chirp.core.designsystem.generated.resources.Res as DesignSystemRes
+import chirp.feature.chat.presentation.generated.resources.empty_chat
 import chirp.feature.chat.presentation.generated.resources.no_messages
 import chirp.feature.chat.presentation.generated.resources.no_messages_subtitle
 import com.ruialves.core.designsystem.theme.ChirpTheme
@@ -35,7 +34,7 @@ fun EmptyChatSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(DesignSystemRes.drawable.empty_chat),
+            painter = painterResource(Res.drawable.empty_chat),
             contentDescription = stringResource(Res.string.no_messages),
             modifier = Modifier.size(
                 when(configuration){
