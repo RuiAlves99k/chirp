@@ -17,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -31,17 +30,17 @@ import chirp.feature.chat.presentation.generated.resources.create_chat
 import chirp.feature.chat.presentation.generated.resources.desc_do_you_want_logout
 import chirp.feature.chat.presentation.generated.resources.do_you_want_logout
 import chirp.feature.chat.presentation.generated.resources.logout
+import chirp.feature.chat.presentation.generated.resources.no_chats
+import chirp.feature.chat.presentation.generated.resources.no_chats_subtitle
 import com.ruialves.chat.presentation.chat_list.components.ChatListHeader
 import com.ruialves.chat.presentation.chat_list.components.ChatListItemUi
-import com.ruialves.chat.presentation.chat_list.components.EmptyChatSection
+import com.ruialves.chat.presentation.components.EmptyListSection
 import com.ruialves.chat.presentation.models.ChatUi
-import com.ruialves.core.designsystem.components.buttons.ChirpButton
 import com.ruialves.core.designsystem.components.buttons.ChirpFloatingActionButton
 import com.ruialves.core.designsystem.components.dialogs.DestructiveConfirmationDialog
 import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.designsystem.theme.extended
 import com.ruialves.core.presentation.util.ObserveAsEvents
-import com.ruialves.core.presentation.util.VerticalSpacer
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -135,7 +134,9 @@ fun ChatListScreen(
                     )
                 }
 
-                state.chats.isEmpty() -> EmptyChatSection(
+                state.chats.isEmpty() -> EmptyListSection(
+                    title = stringResource(Res.string.no_chats),
+                    description = stringResource(Res.string.no_chats_subtitle),
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()

@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
-import com.ruialves.chat.presentation.chat_list.components.ChatListItemUi
 import com.ruialves.chat.presentation.models.MessageUi
 import com.ruialves.core.designsystem.components.avatar.ChatParticipantUi
 import com.ruialves.core.designsystem.theme.ChirpTheme
@@ -24,10 +23,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun MessageListItemUi(
     messageUi: MessageUi,
-    onMessageLongClick: () -> Unit,
     onDismissMessageMenu: () -> Unit,
-    onDeleteClick: () -> Unit,
-    onRetryClick: () -> Unit,
+    onMessageLongClick: (MessageUi.LocalUserMessage) -> Unit,
+    onDeleteClick: (MessageUi.LocalUserMessage) -> Unit,
+    onRetryClick: (MessageUi.LocalUserMessage) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -41,9 +40,9 @@ fun MessageListItemUi(
 
             is MessageUi.LocalUserMessage -> LocalUserMessage(
                 message = messageUi,
-                onMessageLongClick = onMessageLongClick,
-                onDeleteClick = onDeleteClick,
-                onRetryClick = onRetryClick,
+                onMessageLongClick = { onMessageLongClick(messageUi) },
+                onDeleteClick = { onDeleteClick(messageUi) },
+                onRetryClick = { onRetryClick(messageUi) },
                 onDismissMessageMenu = onDismissMessageMenu
             )
 
