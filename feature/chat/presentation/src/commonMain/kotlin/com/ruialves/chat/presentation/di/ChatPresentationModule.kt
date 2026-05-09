@@ -1,5 +1,6 @@
 package com.ruialves.chat.presentation.di
 
+import com.ruialves.chat.presentation.chat_detail.ChatDetailViewModel
 import com.ruialves.chat.presentation.chat_list.ChatListViewModel
 import com.ruialves.chat.presentation.chat_list_detail.ChaListDetailViewModel
 import com.ruialves.chat.presentation.create_chat.CreateChatViewModel
@@ -10,4 +11,5 @@ val chatPresentationModule = module {
     viewModelOf(::ChatListViewModel)
     viewModelOf(::ChaListDetailViewModel)
     viewModelOf(::CreateChatViewModel)
+    viewModelOf(::ChatDetailViewModel)
 }

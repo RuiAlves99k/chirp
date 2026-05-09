@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,9 +16,15 @@ import androidx.compose.ui.unit.dp
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.no_messages
 import chirp.feature.chat.presentation.generated.resources.no_messages_subtitle
+import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
 import com.ruialves.chat.presentation.components.EmptyListSection
 import com.ruialves.chat.presentation.models.MessageUi
+import com.ruialves.core.designsystem.components.avatar.ChatParticipantUi
+import com.ruialves.core.designsystem.theme.ChirpTheme
+import com.ruialves.core.presentation.util.UiText
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.random.Random
 
 @Composable
 fun MessageList(
@@ -64,5 +71,95 @@ fun MessageList(
                 )
             }
         }
+    }
+}
+
+@Composable
+@Preview
+private fun MessageListEmptyPreview(){
+    ChirpTheme {
+        MessageList(
+            listState = rememberLazyListState(),
+            messages = emptyList(),
+            onDismissMessageMenu = {},
+            onDeleteMessageClick = {},
+            onMessageLongClick = {},
+            onMessageRetryClick = {}
+        )
+    }
+}
+
+
+@Composable
+@Preview
+private fun MessageListPreview(){
+    ChirpTheme {
+        MessageList(
+            listState = rememberLazyListState(),
+            messages = (1..20).map {
+                val showLocalMessages = Random.nextBoolean()
+                if (showLocalMessages) {
+                    MessageUi.LocalUserMessage(
+                        id = it.toString(),
+                        content = "Hello world!",
+                        deliveryStatus = ChatMessageDeliveryStatus.SENT,
+                        isMenuOpen = false,
+                        formattedSentTime = UiText.DynamicString("Friday, Aug 20"),
+                    )
+                } else {
+                    MessageUi.OtherUserMessage(
+                        id = it.toString(),
+                        content = "Hello other",
+                        formattedSentTime = UiText.DynamicString("Saturday, Aug 21"),
+                        sender = ChatParticipantUi(
+                            id = "-1",
+                            username = "Rui Alves",
+                            initials = "RA"
+                        )
+                    )
+                }
+            },
+            onDismissMessageMenu = {},
+            onDeleteMessageClick = {},
+            onMessageLongClick = {},
+            onMessageRetryClick = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun MessageListDarkPreview(){
+    ChirpTheme(darkTheme = true) {
+        MessageList(
+            listState = rememberLazyListState(),
+            messages = (1..20).map {
+                val showLocalMessages = Random.nextBoolean()
+                if (showLocalMessages) {
+                    MessageUi.LocalUserMessage(
+                        id = it.toString(),
+                        content = "Hello world!",
+                        deliveryStatus = ChatMessageDeliveryStatus.SENT,
+                        isMenuOpen = false,
+                        formattedSentTime = UiText.DynamicString("Friday, Aug 20"),
+                    )
+                } else {
+                    MessageUi.OtherUserMessage(
+                        id = it.toString(),
+                        content = "Hello other",
+                        formattedSentTime = UiText.DynamicString("Saturday, Aug 21"),
+                        sender = ChatParticipantUi(
+                            id = "-1",
+                            username = "Rui Alves",
+                            initials = "RA"
+                        )
+                    )
+                }
+            },
+            onDismissMessageMenu = {},
+            onDeleteMessageClick = {},
+            onMessageLongClick = {},
+            onMessageRetryClick = {}
+        )
     }
 }

@@ -58,8 +58,6 @@ fun ChirpMultiLineTextField(
     ) {
         BasicTextField(
             state = state,
-            modifier = Modifier
-                .weight(1f),
             enabled = enabled,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 color = MaterialTheme.colorScheme.extended.textPrimary
