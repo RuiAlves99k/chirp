@@ -25,6 +25,7 @@ import chirp.feature.chat.presentation.generated.resources.leave_chat
 import chirp.feature.chat.presentation.generated.resources.open_chat_options_menu
 import chirp.feature.chat.presentation.generated.resources.users_icon
 import com.ruialves.chat.domain.models.ChatMessage
+import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
 import com.ruialves.chat.presentation.components.ChatHeader
 import com.ruialves.chat.presentation.components.ChatItemHeaderRow
 import chirp.core.designsystem.generated.resources.Res as DesignSystemRes
@@ -155,7 +156,8 @@ private fun ChatDetailHeaderPreview() {
                             chatId = "1",
                             content = "Hello everyone",
                             createdAt = Clock.System.now(),
-                            senderId = "2"
+                            senderId = "2",
+                            deliveryStatus = ChatMessageDeliveryStatus.SENT
                         ),
                         lastMessageSenderUsername = "Lily"
                     ),

@@ -3,8 +3,10 @@ package com.ruialves.chat.data.di
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.ruialves.chat.data.chat.KtorChatParticipantService
 import com.ruialves.chat.data.chat.KtorChatService
+import com.ruialves.chat.data.chat.OfflineFirstChatRepository
 import com.ruialves.chat.database.DatabaseFactory
 import com.ruialves.chat.domain.chat.ChatParticipantService
+import com.ruialves.chat.domain.chat.ChatRepository
 import com.ruialves.chat.domain.chat.ChatService
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -17,6 +19,7 @@ val chatDataModule = module {
 
     singleOf(::KtorChatParticipantService) bind ChatParticipantService::class
     singleOf(::KtorChatService) bind ChatService::class
+    singleOf(::OfflineFirstChatRepository) bind ChatRepository::class
     single {
         get<DatabaseFactory>()
             .create()

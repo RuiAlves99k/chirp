@@ -1,0 +1,47 @@
+package com.ruialves.chat.data.chat
+
+import com.ruialves.chat.data.mappers.toDomain
+import com.ruialves.chat.data.mappers.toEntity
+import com.ruialves.chat.data.mappers.toLastMessageView
+import com.ruialves.chat.database.ChirpChatDatabase
+import com.ruialves.chat.database.entities.ChatWithParticipants
+import com.ruialves.chat.domain.chat.ChatRepository
+import com.ruialves.chat.domain.chat.ChatService
+import com.ruialves.chat.domain.models.Chat
+import com.ruialves.core.domain.util.DataError
+import com.ruialves.core.domain.util.Result
+import com.ruialves.core.domain.util.onSuccess
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+class OfflineFirstChatRepository(
+    private val chatService: ChatService,
+    private val db: ChirpChatDatabase
+) : ChatRepository {
+    override fun getChats(): Flow<List<Chat>> {
+        return db.chatDao.getChatsWithActiveParticipants()
+            .map { chatWithParticipantsList ->
+                chatWithParticipantsList.map { it.toDomain() }
+            }
+    }
+
+    override suspend fun fetchChats(): Result<List<Chat>, DataError.Remote> {
+        return chatService.getChats()
+            .onSuccess { chats ->
+                val chatsWithParticipants = chats.map { chat ->
+                    ChatWithParticipants(
+                        chat = chat.toEntity(),
+                        participants = chat.participants.map { it.toEntity() },
+                        lastMessage = chat.lastMessage?.toLastMessageView(),
+                    )
+                }
+
+                db.chatDao.upsertChatsWithParticipantsAndCrossRefs(
+                    chats = chatsWithParticipants,
+                    participantDao = db.chatParticipantDao,
+                    crossRefDao = db.chatParticipantCrossRefDao,
+                    messageDao = db.chatMessageDao
+                )
+            }
+    }
+}

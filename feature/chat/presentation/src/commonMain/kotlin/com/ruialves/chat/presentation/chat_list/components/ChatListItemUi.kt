@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.ruialves.chat.domain.models.ChatMessage
+import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
 import com.ruialves.chat.presentation.components.ChatItemHeaderRow
 import com.ruialves.chat.presentation.models.ChatUi
 import com.ruialves.core.designsystem.components.avatar.ChatParticipantUi
@@ -130,7 +131,8 @@ fun ChatListItemUiPreview(){
                     chatId = "1",
                     content = "Hello everyone",
                     createdAt = Clock.System.now(),
-                    senderId = "2"
+                    senderId = "2",
+                    deliveryStatus = ChatMessageDeliveryStatus.SENT
                 ),
                 lastMessageSenderUsername = "Lily"
             ),
@@ -164,7 +166,8 @@ fun ChatListItemUiDarkPreview(){
                     chatId = "1",
                     content = "Hello, how are you?",
                     createdAt = Clock.System.now(),
-                    senderId = "2"
+                    senderId = "2",
+                    deliveryStatus = ChatMessageDeliveryStatus.SENT
                 ),
                 lastMessageSenderUsername = "Lily"
             ),

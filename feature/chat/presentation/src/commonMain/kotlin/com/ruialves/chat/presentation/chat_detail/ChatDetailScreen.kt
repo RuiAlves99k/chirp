@@ -270,7 +270,8 @@ private fun ChatDetailMessagesPreview() {
                         chatId = "1",
                         content = "Hello everyone",
                         createdAt = Clock.System.now(),
-                        senderId = "2"
+                        senderId = "2",
+                        deliveryStatus = ChatMessageDeliveryStatus.SENT
                     ),
                     lastMessageSenderUsername = "Lily"
                 ),
@@ -344,7 +345,8 @@ private fun ChatDetailMessagesDarkPreview() {
                         chatId = "1",
                         content = "Hello everyone",
                         createdAt = Clock.System.now(),
-                        senderId = "2"
+                        senderId = "2",
+                        deliveryStatus = ChatMessageDeliveryStatus.SENT
                     ),
                     lastMessageSenderUsername = "Lily"
                 ),
