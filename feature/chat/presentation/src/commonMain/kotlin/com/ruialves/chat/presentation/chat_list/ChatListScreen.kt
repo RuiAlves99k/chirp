@@ -34,7 +34,7 @@ import chirp.feature.chat.presentation.generated.resources.no_chats
 import chirp.feature.chat.presentation.generated.resources.no_chats_subtitle
 import com.ruialves.chat.presentation.chat_list.components.ChatListHeader
 import com.ruialves.chat.presentation.chat_list.components.ChatListItemUi
-import com.ruialves.chat.presentation.components.EmptyListSection
+import com.ruialves.chat.presentation.components.EmptySection
 import com.ruialves.chat.presentation.models.ChatUi
 import com.ruialves.core.designsystem.components.buttons.ChirpFloatingActionButton
 import com.ruialves.core.designsystem.components.dialogs.DestructiveConfirmationDialog
@@ -134,7 +134,7 @@ fun ChatListScreen(
                     )
                 }
 
-                state.chats.isEmpty() -> EmptyListSection(
+                state.chats.isEmpty() -> EmptySection(
                     title = stringResource(Res.string.no_chats),
                     description = stringResource(Res.string.no_chats_subtitle),
                     modifier = Modifier

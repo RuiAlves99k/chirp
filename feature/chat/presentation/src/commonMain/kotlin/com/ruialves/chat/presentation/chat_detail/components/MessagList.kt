@@ -17,7 +17,7 @@ import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.no_messages
 import chirp.feature.chat.presentation.generated.resources.no_messages_subtitle
 import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
-import com.ruialves.chat.presentation.components.EmptyListSection
+import com.ruialves.chat.presentation.components.EmptySection
 import com.ruialves.chat.presentation.models.MessageUi
 import com.ruialves.core.designsystem.components.avatar.ChatParticipantUi
 import com.ruialves.core.designsystem.theme.ChirpTheme
@@ -42,7 +42,7 @@ fun MessageList(
                 .padding(vertical = 32.dp),
             contentAlignment = Alignment.Center
         ) {
-            EmptyListSection(
+            EmptySection(
                 title = stringResource(Res.string.no_messages),
                 description = stringResource(Res.string.no_messages_subtitle)
             )
