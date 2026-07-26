@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ruialves.core.designsystem.components.avatar.ChatParticipantUi
 import com.ruialves.core.designsystem.components.avatar.ChirpAvatarPhoto
+import com.ruialves.core.designsystem.components.brand.ChirpHorizontalDivider
 import com.ruialves.core.designsystem.theme.extended
 import com.ruialves.core.designsystem.theme.titleXSmall
 import com.ruialves.core.presentation.util.DeviceConfiguration
@@ -27,12 +28,13 @@ import com.ruialves.core.presentation.util.currentDeviceConfiguration
 
 @Composable
 fun ColumnScope.ChatParticipantsSelectionSection(
+    existingChatParticipants: List<ChatParticipantUi>,
     selectedParticipants: List<ChatParticipantUi>,
     modifier: Modifier = Modifier,
     searchResult: ChatParticipantUi? = null
 ) {
     val deviceConfiguration = currentDeviceConfiguration()
-    val rootHeightModifier = when(deviceConfiguration) {
+    val rootHeightModifier = when (deviceConfiguration) {
         DeviceConfiguration.TABLET_PORTRAIT,
         DeviceConfiguration.TABLET_LANDSCAPE,
         DeviceConfiguration.DESKTOP -> {
@@ -40,6 +42,7 @@ fun ColumnScope.ChatParticipantsSelectionSection(
                 .animateContentSize()
                 .heightIn(min = 200.dp, max = 300.dp)
         }
+
         else -> Modifier
             .weight(1f)
     }
@@ -52,6 +55,23 @@ fun ColumnScope.ChatParticipantsSelectionSection(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
+            items(
+                items = existingChatParticipants,
+                key = { "existing_${it.id}" }
+            ) { participant ->
+                ChatParticipantListItem(
+                    participantUi = participant,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
+
+            if (existingChatParticipants.isNotEmpty()) {
+                item {
+                    ChirpHorizontalDivider()
+                }
+            }
+
             searchResult?.let {
                 item {
                     ChatParticipantListItem(
@@ -62,7 +82,7 @@ fun ColumnScope.ChatParticipantsSelectionSection(
                 }
             }
 
-            if(selectedParticipants.isNotEmpty() && searchResult == null) {
+            if (selectedParticipants.isNotEmpty() && searchResult == null) {
                 items(
                     items = selectedParticipants,
                     key = { it.id }

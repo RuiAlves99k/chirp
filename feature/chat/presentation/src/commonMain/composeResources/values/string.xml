@@ -8,6 +8,7 @@
     <string name="group_chat">Group chat</string>
     <string name="profile_settings">Profile settings</string>
     <string name="logout">Logout</string>
+    <string name="save">Save</string>
     <string name="no_chats">No chats</string>
     <string name="no_chats_subtitle">Create a new chat to start messaging</string>
     <string name="no_messages">No messages</string>

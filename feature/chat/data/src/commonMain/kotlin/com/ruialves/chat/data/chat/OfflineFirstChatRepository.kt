@@ -11,6 +11,7 @@ import com.ruialves.chat.domain.chat.ChatRepository
 import com.ruialves.chat.domain.chat.ChatService
 import com.ruialves.chat.domain.models.Chat
 import com.ruialves.chat.domain.models.ChatInfo
+import com.ruialves.chat.domain.models.ChatParticipant
 import com.ruialves.core.domain.util.DataError
 import com.ruialves.core.domain.util.EmptyResult
 import com.ruialves.core.domain.util.Result
@@ -43,6 +44,13 @@ class OfflineFirstChatRepository(
                     .map { it.toDomain() }
             }
         }
+    }
+
+    override fun getActiveParticipantsByChatId(chatId: String): Flow<List<ChatParticipant>> {
+        return db.chatDao.getActiveParticipantsByChatId(chatId)
+            .map { participants ->
+                participants.map { it.toDomain() }
+            }
     }
 
     override fun getChatInfoById(chatId: String): Flow<ChatInfo> {
@@ -105,6 +113,19 @@ class OfflineFirstChatRepository(
         return chatService.leaveChat(chatId).onSuccess {
             db.chatDao.deleteChatById(chatId)
         }
+    }
+
+    override suspend fun addParticipantsToChat(chatId: String, userIds: List<String>): Result<Chat, DataError.Remote> {
+        return chatService
+            .addParticipantsToChat(chatId, userIds)
+            .onSuccess { chat ->
+                db.chatDao.upsertChatWithParticipantsAndCrossRefs(
+                    chat = chat.toEntity(),
+                    participants = chat.participants.map { it.toEntity() },
+                    participantDao = db.chatParticipantDao,
+                    crossRefDao = db.chatParticipantCrossRefDao,
+                )
+            }
     }
 
     private suspend fun List<ChatParticipantEntity>.onlyActive(chatId: String): List<ChatParticipantEntity> {

@@ -1,6 +1,6 @@
-@file:OptIn(FlowPreview::class)
+@file:OptIn(ExperimentalCoroutinesApi::class)
 
-package com.ruialves.chat.presentation.create_chat
+package com.ruialves.chat.presentation.manage_chat
 
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.runtime.snapshotFlow
@@ -18,11 +18,14 @@ import com.ruialves.core.domain.util.onFailure
 import com.ruialves.core.domain.util.onSuccess
 import com.ruialves.core.presentation.util.UiText
 import com.ruialves.core.presentation.util.toUiText
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -32,85 +35,103 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
-class CreateChatViewModel(
+class ManageChatViewModel(
+    private val chatRepository: ChatRepository,
     private val chatParticipantService: ChatParticipantService,
-    private val chatRepository: ChatRepository
-) : ViewModel() {
+): ViewModel() {
 
-    private val eventChannel = Channel<CreateChatEvent>()
-    val events = eventChannel.receiveAsFlow()
+    private val _chatId = MutableStateFlow<String?>(null)
+
+    private val eventChannel = Channel<ManageChatEvent>()
+    val event = eventChannel.receiveAsFlow()
 
     private var hasLoadedInitialData = false
-    private val _state = MutableStateFlow(ManageChatState())
-    private val searchFlow = snapshotFlow { _state.value.queryTextState.text.toString() }
-        .debounce(1.seconds)
-        .onEach { query ->
-            performSearch(query)
-        }
 
-    val state = _state
-        .onStart {
-            if (!hasLoadedInitialData) {
-                searchFlow.launchIn(viewModelScope)
-                hasLoadedInitialData = true
-            }
+    private val _state = MutableStateFlow(ManageChatState())
+    val state = _chatId
+        .flatMapLatest { chatId ->
+            if (chatId != null){
+                chatRepository.getActiveParticipantsByChatId(chatId)
+            } else emptyFlow()
         }
+        .combine(_state) { participants, currentState ->
+            currentState.copy(
+                existingChatParticipants = participants.map { it.toUi() }
+            )
+        }
+        .onStart {
+        if (!hasLoadedInitialData) {
+            searchFlow.launchIn(viewModelScope)
+            hasLoadedInitialData = true
+        }
+    }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = ManageChatState()
         )
 
-    fun onAction(action: ManageChatAction) {
-        when (action) {
-            ManageChatAction.OnAddClick -> addParticipant()
-            ManageChatAction.OnPrimaryActionClick -> createChat()
+    private val searchFlow = snapshotFlow { _state.value.queryTextState.text.toString() }
+        .debounce(1.seconds)
+        .onEach { query ->
+            performSearch(query)
+        }
+
+    fun onAction(action: ManageChatAction){
+        when(action) {
+            ManageChatAction.OnAddClick -> addParticipantsToChat()
+            ManageChatAction.OnPrimaryActionClick -> addParticipant()
+            is ManageChatAction.ChatParticipants.OnSelectChat -> {
+                _chatId.update { action.chatId }
+            }
             else -> Unit
         }
     }
 
-    private fun createChat() {
-        val userIds = state.value.selectedChatParticipants.map { it.id }
-        if (userIds.isEmpty()) {
-            return
-        }
-        viewModelScope.launch {
-            _state.update { it.copy(
-                isSubmitting = true,
-                canAddParticipant = false
-            ) }
+    private fun addParticipant() {
+        state.value.currentSearchResult?.let { participantFromSearch ->
+            val isAlreadySelected = state.value.selectedChatParticipants.any {
+                it.id == participantFromSearch.id
+            }
+            val isAlreadyInChat = state.value.existingChatParticipants.any {
+                it.id == participantFromSearch.id
+            }
+            val updatedParticipants = if (isAlreadyInChat || isAlreadySelected) {
+                state.value.selectedChatParticipants
+            } else state.value.selectedChatParticipants + participantFromSearch
 
-            chatRepository
-                .createChat(userIds)
-                .onSuccess { chat ->
-                    _state.update { it.copy(
-                        isSubmitting = false
-                    ) }
-                    eventChannel.send(CreateChatEvent.OnChatCreated(chat))
-                }
-                .onFailure { error ->
-                    _state.update { it.copy(
-                        submitError = error.toUiText(),
-                        canAddParticipant = it.currentSearchResult != null && !it.isSearching,
-                        isSubmitting = false
-                    ) }
-                }
+            _state.value.queryTextState.clearText()
+            _state.update { it.copy(
+                selectedChatParticipants = updatedParticipants,
+                canAddParticipant = false,
+                currentSearchResult = null
+            ) }
         }
     }
 
-    private fun addParticipant() {
-        state.value.currentSearchResult?.let { participant ->
-            val isAlreadyPartOfChat = state.value.selectedChatParticipants.any {
-                it.id == participant.id
-            }
-            if (!isAlreadyPartOfChat) {
-                _state.update { it.copy(
-                    selectedChatParticipants = it.selectedChatParticipants + participant,
-                    canAddParticipant = false,
-                    currentSearchResult = null
-                ) }
-                _state.value.queryTextState.clearText()
-            }
+    private fun addParticipantsToChat() {
+        if (state.value.selectedChatParticipants.isEmpty()){
+            return
+        }
+
+        val chatId = _chatId.value ?: return
+
+        val selectedParticipants = state.value.selectedChatParticipants
+        val selectedUserIds = selectedParticipants.map { it.id }
+
+        viewModelScope.launch {
+            chatRepository
+                .addParticipantsToChat(
+                    chatId = chatId,
+                    userIds = selectedUserIds
+                ).onSuccess {
+                    eventChannel.send(ManageChatEvent.OnMembersAdded)
+                }.onFailure { error ->
+                    _state.update { it.copy(
+                        isSubmitting = false,
+                        submitError = error.toUiText()
+                    ) }
+                }
         }
     }
 
@@ -143,7 +164,7 @@ class CreateChatViewModel(
                 .onFailure { error ->
                     val errorMessage = when(error) {
                         DataError.Remote.NOT_FOUND -> UiText.Resource(Res.string.error_participant_not_found)
-                            else -> error.toUiText()
+                        else -> error.toUiText()
                     }
                     _state.update { it.copy(
                         searchError = errorMessage,
@@ -154,4 +175,5 @@ class CreateChatViewModel(
                 }
         }
     }
+
 }

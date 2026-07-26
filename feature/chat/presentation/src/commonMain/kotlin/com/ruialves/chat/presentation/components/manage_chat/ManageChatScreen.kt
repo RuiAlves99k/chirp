@@ -1,5 +1,4 @@
-package com.ruialves.chat.presentation.create_chat
-
+package com.ruialves.chat.presentation.components.manage_chat
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,67 +16,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.cancel
 import chirp.feature.chat.presentation.generated.resources.create_chat
-import com.ruialves.chat.domain.models.Chat
 import com.ruialves.chat.presentation.components.ChatParticipantSearchTextSection
 import com.ruialves.chat.presentation.components.ChatParticipantsSelectionSection
 import com.ruialves.chat.presentation.components.ManageChatButtonSection
 import com.ruialves.chat.presentation.components.ManageChatHeaderRow
-import com.ruialves.chat.presentation.components.manage_chat.ManageChatAction
-import com.ruialves.chat.presentation.components.manage_chat.ManageChatState
 import com.ruialves.core.designsystem.components.brand.ChirpHorizontalDivider
 import com.ruialves.core.designsystem.components.buttons.ChirpButton
 import com.ruialves.core.designsystem.components.buttons.ChirpButtonStyle
-import com.ruialves.core.designsystem.components.dialogs.ChirpAdaptiveDialogSheetLayout
 import com.ruialves.core.designsystem.theme.ChirpTheme
 import com.ruialves.core.presentation.util.DeviceConfiguration
-import com.ruialves.core.presentation.util.ObserveAsEvents
 import com.ruialves.core.presentation.util.clearFocusOnTap
 import com.ruialves.core.presentation.util.currentDeviceConfiguration
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.viewmodel.koinViewModel
-
-@Composable
-fun CreateChatRoot(
-    onDismiss: () -> Unit,
-    onChatCreated: (Chat) -> Unit,
-    viewModel: CreateChatViewModel = koinViewModel()
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    ObserveAsEvents(viewModel.events) { event ->
-        when(event){
-            is CreateChatEvent.OnChatCreated -> {
-                onChatCreated(event.chat)
-            }
-        }
-    }
-
-    ChirpAdaptiveDialogSheetLayout(
-        onDismiss = onDismiss
-    ) {
-        ManageChatScreen(
-            headerText = stringResource(Res.string.create_chat),
-            primaryButtonText = stringResource(Res.string.create_chat),
-            state = state,
-            onAction = { action ->
-                when (action) {
-                    ManageChatAction.OnDismissDialog -> onDismiss()
-                    else -> Unit
-                }
-                viewModel.onAction(action)
-            }
-        )
-    }
-}
 
 @Composable
 fun ManageChatScreen(
-    headerText: String,
     primaryButtonText: String,
     state: ManageChatState,
     onAction: (ManageChatAction) -> Unit,
@@ -104,7 +61,7 @@ fun ManageChatScreen(
         ) {
             Column {
                 ManageChatHeaderRow(
-                    title = headerText,
+                    title = stringResource(Res.string.create_chat),
                     onCloseClick = {
                         onAction(ManageChatAction.OnDismissDialog)
                     },
@@ -167,7 +124,6 @@ fun ManageChatScreen(
 private fun Preview() {
     ChirpTheme {
         ManageChatScreen(
-            headerText = "Create chat",
             state = ManageChatState(),
             onAction = {},
             primaryButtonText = "Create chat"

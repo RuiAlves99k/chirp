@@ -2,6 +2,7 @@ package com.ruialves.chat.data.chat
 
 import com.ruialves.chat.data.dto.ChatDto
 import com.ruialves.chat.data.dto.request.CreateChatRequest
+import com.ruialves.chat.data.dto.request.ParticipantsRequest
 import com.ruialves.chat.data.mappers.toDomain
 import com.ruialves.chat.domain.chat.ChatService
 import com.ruialves.chat.domain.models.Chat
@@ -49,5 +50,14 @@ class KtorChatService(
         return httpClient.delete<Unit>(
             route = "/chat/$chatId/leave"
         ).asEmptyResult()
+    }
+
+    override suspend fun addParticipantsToChat(chatId: String, userIds: List<String>): Result<Chat, DataError.Remote> {
+        return httpClient.post<ParticipantsRequest, ChatDto>(
+            route = "/chat/$chatId/add",
+            body = ParticipantsRequest(
+                userIds = userIds
+            )
+        ).map { it.toDomain() }
     }
 }
