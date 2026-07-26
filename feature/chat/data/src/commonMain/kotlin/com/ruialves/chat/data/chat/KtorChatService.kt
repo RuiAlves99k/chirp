@@ -5,12 +5,16 @@ import com.ruialves.chat.data.dto.request.CreateChatRequest
 import com.ruialves.chat.data.mappers.toDomain
 import com.ruialves.chat.domain.chat.ChatService
 import com.ruialves.chat.domain.models.Chat
+import com.ruialves.core.data.networking.delete
 import com.ruialves.core.data.networking.get
 import com.ruialves.core.data.networking.post
 import com.ruialves.core.domain.util.DataError
+import com.ruialves.core.domain.util.EmptyResult
 import com.ruialves.core.domain.util.Result
+import com.ruialves.core.domain.util.asEmptyResult
 import com.ruialves.core.domain.util.map
 import io.ktor.client.HttpClient
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 
 class KtorChatService(
@@ -39,5 +43,11 @@ class KtorChatService(
         ).map { chatDto ->
             chatDto.toDomain()
         }
+    }
+
+    override suspend fun leaveChat(chatId: String): EmptyResult<DataError.Remote> {
+        return httpClient.delete<Unit>(
+            route = "/chat/$chatId/leave"
+        ).asEmptyResult()
     }
 }
