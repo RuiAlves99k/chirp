@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.error_participant_not_found
 import com.ruialves.chat.domain.chat.ChatParticipantService
+import com.ruialves.chat.domain.chat.ChatRepository
 import com.ruialves.chat.domain.chat.ChatService
 import com.ruialves.chat.presentation.mappers.toUi
 import com.ruialves.core.domain.util.DataError
@@ -32,7 +33,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class CreateChatViewModel(
     private val chatParticipantService: ChatParticipantService,
-    private val chatService: ChatService,
+    private val chatRepository: ChatRepository
 ) : ViewModel() {
 
     private val eventChannel = Channel<CreateChatEvent>()
@@ -78,7 +79,7 @@ class CreateChatViewModel(
                 canAddParticipant = false
             ) }
 
-            chatService
+            chatRepository
                 .createChat(userIds)
                 .onSuccess { chat ->
                     _state.update { it.copy(
