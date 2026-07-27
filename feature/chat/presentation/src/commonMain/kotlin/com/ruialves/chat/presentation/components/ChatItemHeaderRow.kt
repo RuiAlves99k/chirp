@@ -24,16 +24,12 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ChatItemHeaderRow(
     chat: ChatUi,
-    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val isGroupChat = chat.otherParticipants.size > 1
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .clickable {
-                onClick()
-            },
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {

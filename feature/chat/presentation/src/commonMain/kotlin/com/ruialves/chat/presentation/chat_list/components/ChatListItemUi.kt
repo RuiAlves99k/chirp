@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,13 +39,9 @@ fun ChatListItemUi(
     chat: ChatUi,
     isSelected: Boolean,
     modifier: Modifier = Modifier,
-    onClickChat: () -> Unit,
 ) {
     Row(
         modifier = modifier
-            .clickable {
-                onClickChat()
-            }
             .height(IntrinsicSize.Min)
             .background(
                 color = if (isSelected) {
@@ -137,7 +134,6 @@ fun ChatListItemUiPreview(){
                 lastMessageSenderUsername = "Lily"
             ),
             isSelected = true,
-            onClickChat = {}
         )
     }
 }
@@ -172,7 +168,6 @@ fun ChatListItemUiDarkPreview(){
                 lastMessageSenderUsername = "Lily"
             ),
             isSelected = true,
-            onClickChat = {}
         )
     }
 }

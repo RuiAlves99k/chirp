@@ -98,6 +98,10 @@ fun ChatDetailRoot(
         onAction = { action ->
             when (action) {
                 is ChatDetailAction.OnChatMembersClick -> onChatMembersClick()
+                is ChatDetailAction.OnBackClick -> {
+                    viewModel.onAction(ChatDetailAction.OnSelectChat(null))
+                    onBack()
+                }
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -139,7 +143,7 @@ fun ChatDetailScreen(
                 )
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 DynamicRoundedCornerColumn(
                     isCornersRounded = configuration.isWideScreen,

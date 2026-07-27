@@ -3,10 +3,7 @@
 package com.ruialves.chat.presentation.chat_list_detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -17,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
@@ -94,7 +90,7 @@ fun ChatListDetailAdaptiveLayout(
                     },
                     onBack = {
                         scope.launch {
-                            if (scaffoldNavigator.canNavigateBack()){
+                            if (scaffoldNavigator.canNavigateBack()) {
                                 scaffoldNavigator.navigateBack()
                             }
                         }

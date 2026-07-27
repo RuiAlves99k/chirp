@@ -1,6 +1,7 @@
 package com.ruialves.chat.presentation.chat_detail.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,11 +75,13 @@ fun ChatDetailHeader(
             }
         }
 
-        if (chatUi != null){
+        if (chatUi != null) {
             ChatItemHeaderRow(
                 chat = chatUi,
-                modifier = Modifier.weight(1f),
-                onClick = onManageChatClick
+                modifier = Modifier.weight(1f)
+                    .clickable {
+                        onManageChatClick()
+                    }
             )
         } else {
             Spacer(modifier = Modifier.weight(1f))

@@ -1,5 +1,6 @@
 package com.ruialves.chat.presentation.chat_list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -158,10 +159,11 @@ fun ChatListScreen(
                             ChatListItemUi(
                                 chat = chatUi,
                                 isSelected = chatUi.id == state.selectedChatId,
-                                modifier = Modifier.fillMaxWidth(),
-                                onClickChat = {
-                                    onAction(ChatListAction.OnChatClick(chatUi))
-                                }
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        onAction(ChatListAction.OnChatClick(chatUi))
+                                    }
                             )
                         }
                     }
