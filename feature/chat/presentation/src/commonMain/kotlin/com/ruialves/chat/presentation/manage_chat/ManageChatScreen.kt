@@ -3,11 +3,9 @@ package com.ruialves.chat.presentation.manage_chat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.chat_members
-import chirp.feature.chat.presentation.generated.resources.create_chat
 import chirp.feature.chat.presentation.generated.resources.save
 import com.ruialves.chat.presentation.components.manage_chat.ManageChatAction
 import com.ruialves.chat.presentation.create_chat.ManageChatScreen

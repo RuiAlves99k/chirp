@@ -42,6 +42,7 @@ fun ChatListDetailAdaptiveLayout(
     BackHandler(enabled = scaffoldNavigator.canNavigateBack()) {
         scope.launch {
             scaffoldNavigator.navigateBack()
+            chatListDetailViewModel.onAction(ChatListDetailAction.OnChatClick(null))
         }
     }
 

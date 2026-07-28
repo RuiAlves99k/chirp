@@ -2,6 +2,7 @@
 
 package com.ruialves.core.presentation.util
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -45,7 +46,11 @@ fun DialogSheetScopedViewModel(
 
     owner?.let { dialogOwner ->
         CompositionLocalProvider(LocalViewModelStoreOwner provides dialogOwner) {
-            content()
+            AnimatedVisibility(
+                visible = visible
+            ) {
+                content()
+            }
         }
     }
 }

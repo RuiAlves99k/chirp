@@ -81,7 +81,11 @@ class ChatDetailViewModel(
         when (action) {
             is ChatDetailAction.OnSelectChat -> switchChat(action.chatId)
             ChatDetailAction.OnBackClick -> {}
-            ChatDetailAction.OnChatMembersClick -> {}
+            ChatDetailAction.OnChatMembersClick -> {
+                _state.update { it.copy(
+                    isChatOptionsOpen = false
+                ) }
+            }
             ChatDetailAction.OnChatOptionsClick -> onChatOptionsClick()
             is ChatDetailAction.OnDeleteMessageClick -> {}
             ChatDetailAction.OnDismissChatOptions -> onDismissChatOptions()
