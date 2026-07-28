@@ -4,6 +4,7 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.ruialves.chat.data.chat.KtorChatParticipantService
 import com.ruialves.chat.data.chat.KtorChatService
 import com.ruialves.chat.data.chat.OfflineFirstChatRepository
+import com.ruialves.chat.data.lifecycle.AppLifecycleObserver
 import com.ruialves.chat.database.DatabaseFactory
 import com.ruialves.chat.domain.chat.ChatParticipantService
 import com.ruialves.chat.domain.chat.ChatRepository
