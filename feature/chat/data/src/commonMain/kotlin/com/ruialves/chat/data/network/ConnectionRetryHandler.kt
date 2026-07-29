@@ -9,11 +9,11 @@ class ConnectionRetryHandler(
 
     private var shouldSkipBackoff = false
 
-    fun shouldRetry(cause: Throwable, attempt: Int): Boolean {
+    fun shouldRetry(cause: Throwable, attempt: Long): Boolean {
         return connectionErrorHandler.isRetriableError(cause)
     }
 
-    suspend fun applyRetryDelay(attempt: Int) {
+    suspend fun applyRetryDelay(attempt: Long) {
         if (!shouldSkipBackoff) {
             val delay = createBackoffDelay(attempt)
             delay(delay)
@@ -26,8 +26,8 @@ class ConnectionRetryHandler(
         shouldSkipBackoff = false
     }
 
-    private suspend fun createBackoffDelay(attempt: Int): Long {
-        val delayTime = (2f.pow(attempt) * 2000L).toLong()
+    private fun createBackoffDelay(attempt: Long): Long {
+        val delayTime = (2f.pow(attempt.toInt()) * 2000L).toLong()
         val maxDelay = 30_000L
         return minOf(delayTime, maxDelay)
     }

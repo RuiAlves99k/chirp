@@ -1,6 +1,10 @@
 package com.ruialves.chat.data.mappers
 
+import androidx.datastore.core.InterProcessCoordinator
 import com.ruialves.chat.data.dto.ChatMessageDto
+import com.ruialves.chat.data.dto.websocket.IncomingWebSocketDto
+import com.ruialves.chat.data.dto.websocket.OutgoingWebSocketDto
+import com.ruialves.chat.data.dto.websocket.OutgoingWebSocketType
 import com.ruialves.chat.database.entities.ChatMessageEntity
 import com.ruialves.chat.database.view.LastMessageView
 import com.ruialves.chat.domain.models.ChatMessage
@@ -55,5 +59,24 @@ fun ChatMessage.toLastMessageView(): LastMessageView {
         content = content,
         timestamp = createdAt.toEpochMilliseconds(),
         deliveryStatus = deliveryStatus.name
+    )
+}
+
+fun ChatMessage.toNewMessage(): OutgoingWebSocketDto.NewMessage {
+    return OutgoingWebSocketDto.NewMessage(
+        messageId = id,
+        chatId = chatId,
+        content = content,
+    )
+}
+
+fun IncomingWebSocketDto.NewMessageDto.toEntity(): ChatMessageEntity {
+    return ChatMessageEntity(
+        messageId = id,
+        chatId = chatId,
+        senderId = senderId,
+        content = content,
+        timestamp = Instant.parse(createdAt).toEpochMilliseconds(),
+        deliveryStatus = ChatMessageDeliveryStatus.SENT.name,
     )
 }

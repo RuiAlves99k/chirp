@@ -38,6 +38,9 @@ kotlin {
 
                 implementation(libs.datastore.preferences)
                 implementation(libs.sentry.kotlin.multiplatform)
+
+                implementation(libs.androidx.room.runtime)
+                implementation(libs.sqlite.bundled)
             }
         }
 
