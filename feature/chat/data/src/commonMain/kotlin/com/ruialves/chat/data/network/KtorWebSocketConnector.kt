@@ -51,7 +51,6 @@ class KtorWebSocketConnector(
     private val connectionRetryHandler: ConnectionRetryHandler,
     private val appLifecycleObserver: AppLifecycleObserver,
     private val connectivityObserver: ConnectivityObserver,
-    private val logger: ChirpLogger
 ) {
 
     private val _connectionState = MutableStateFlow(ConnectionState.DISCONNECTED)
@@ -88,7 +87,7 @@ class KtorWebSocketConnector(
     ) { authInfo, isConnected, isInForeground ->
         when {
             authInfo == null -> {
-                logger.i { "No authentication details. Clearing session and disconnecting..." }
+                ChirpLogger.i { "No authentication details. Clearing session and disconnecting..." }
                 _connectionState.value = ConnectionState.DISCONNECTED
                 currentSession?.close()
                 currentSession = null
@@ -97,7 +96,7 @@ class KtorWebSocketConnector(
             }
 
             !isInForeground -> {
-                logger.i { "App in background disconnecting socket proactively" }
+                ChirpLogger.i { "App in background disconnecting socket proactively" }
                 _connectionState.value = ConnectionState.DISCONNECTED
                 currentSession?.close()
                 currentSession = null
@@ -105,7 +104,7 @@ class KtorWebSocketConnector(
             }
 
             !isConnected -> {
-                logger.i { "Device is disconnected, closing WebSocket connection." }
+                ChirpLogger.i { "Device is disconnected, closing WebSocket connection." }
                 _connectionState.value = ConnectionState.ERROR_NETWORK
                 currentSession?.close()
                 currentSession = null
@@ -113,7 +112,7 @@ class KtorWebSocketConnector(
             }
 
             else -> {
-                logger.i { "App in foreground & connected. Establishing connection.." }
+                ChirpLogger.i { "App in foreground & connected. Establishing connection.." }
                 if (_connectionState.value !in listOf(
                         ConnectionState.CONNECTING,
                         ConnectionState.CONNECTED
@@ -132,14 +131,14 @@ class KtorWebSocketConnector(
             createWebSocketFlow(authInfo.accessToken)
                 // Catch block to transform exceptions for platform compatibility
                 .catch { e ->
-                    logger.e(e) { "Exception in WebSocket" }
+                    ChirpLogger.e(e) { "Exception in WebSocket" }
                     currentSession?.close()
                     currentSession = null
                     val transformedException = connectionErrorHandler.transformException(e)
                     throw transformedException
                 }
                 .retryWhen { t, attempt ->
-                    logger.i { "Connection failed on attempt $attempt" }
+                    ChirpLogger.i { "Connection failed on attempt $attempt" }
 
                     val shouldRetry = connectionRetryHandler.shouldRetry(t, attempt)
                     if (shouldRetry){
@@ -151,7 +150,7 @@ class KtorWebSocketConnector(
                 }
                 // Catch block for non-retriable errors
                 .catch { e ->
-                    logger.e(e) { "Unhandled WebSocket error" }
+                    ChirpLogger.e(e) { "Unhandled WebSocket error" }
                     _connectionState.value = connectionErrorHandler.getConnectionStateForError(e)
                 }
         }
@@ -180,14 +179,14 @@ class KtorWebSocketConnector(
                     when (frame) {
                         is Frame.Text -> {
                             val text = frame.readText()
-                            logger.i { "Received raw text frame: $text" }
+                            ChirpLogger.i { "Received raw text frame: $text" }
 
                             val messageDto = json.decodeFromString<WebSocketMessageDto>(text)
                             send(messageDto)
                         }
 
                         is Frame.Ping -> {
-                            logger.d { "Received ping from server. Sending pong..." }
+                            ChirpLogger.d { "Received ping from server. Sending pong..." }
                             session.send(Frame.Pong(frame.data))
                         }
 
@@ -198,7 +197,7 @@ class KtorWebSocketConnector(
 
         awaitClose {
             launch(NonCancellable) {
-                logger.i { "Disconnecting from WebSocket session..." }
+                ChirpLogger.i { "Disconnecting from WebSocket session..." }
                 _connectionState.value = ConnectionState.DISCONNECTED
                 currentSession?.close()
                 currentSession = null
@@ -218,7 +217,7 @@ class KtorWebSocketConnector(
             Success(Unit)
         } catch (e: Exception) {
             currentCoroutineContext().ensureActive()
-            logger.e(e) { "Unable to send WebSocket message" }
+            ChirpLogger.e(e) { "Unable to send WebSocket message" }
             Failure(ConnectionError.MESSAGE_SEND_FAILED)
         }
     }
