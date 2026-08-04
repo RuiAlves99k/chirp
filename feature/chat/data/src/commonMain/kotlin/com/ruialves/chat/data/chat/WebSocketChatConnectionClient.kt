@@ -16,7 +16,7 @@ import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
 import com.ruialves.chat.domain.models.ConnectionState
 import com.ruialves.core.domain.auth.SessionStorage
 import com.ruialves.core.domain.logging.ChirpLogger
-import com.ruialves.core.domain.util.ConnectionError
+import com.ruialves.core.domain.util.DataError
 import com.ruialves.core.domain.util.EmptyResult
 import com.ruialves.core.domain.util.onFailure
 import kotlinx.coroutines.CoroutineScope
@@ -54,25 +54,6 @@ class WebSocketChatConnectionClient(
         )
 
     override val connectionState: StateFlow<ConnectionState> = webSocketConnector.connectionState
-
-    override suspend fun sendChatMessage(message: ChatMessage): EmptyResult<ConnectionError> {
-        val outgoingDto = message.toNewMessage()
-        val webSocketMessage = WebSocketMessageDto(
-            type = outgoingDto.type.name,
-            payload = json.encodeToString(outgoingDto)
-        )
-
-        val rawJsonPayload = json.encodeToString(webSocketMessage)
-
-        return webSocketConnector
-            .sendMessage(rawJsonPayload)
-            .onFailure { error ->
-                messageRepository.updateMessageDeliveryStatus(
-                    messageId = message.id,
-                    status = ChatMessageDeliveryStatus.FAILED
-                )
-            }
-    }
 
     private fun parseIncomingMessage(message: WebSocketMessageDto): IncomingWebSocketDto? {
         return try {

@@ -3,6 +3,7 @@ package com.ruialves.chat.domain.message
 import com.ruialves.chat.domain.models.ChatMessage
 import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
 import com.ruialves.chat.domain.models.MessageWithSender
+import com.ruialves.chat.domain.models.OutgoingNewMessage
 import com.ruialves.core.domain.util.DataError
 import com.ruialves.core.domain.util.EmptyResult
 import com.ruialves.core.domain.util.Result
@@ -18,6 +19,8 @@ interface MessageRepository {
         chatId: String,
         before: String? = null
     ): Result<List<ChatMessage>, DataError>
+
+    suspend fun sendMessage(message: OutgoingNewMessage): EmptyResult<DataError>
 
     fun getMessagesForChat(chatId: String): Flow<List<MessageWithSender>>
 }

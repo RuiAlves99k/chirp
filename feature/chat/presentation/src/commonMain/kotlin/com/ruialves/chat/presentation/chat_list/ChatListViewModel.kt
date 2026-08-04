@@ -37,7 +37,9 @@ class ChatListViewModel(
             return@combine ChatListState()
         }
         currentState.copy(
-            chats = chats.map { it.toUi(authInfo.user.id) },
+            chats = chats.filter {
+                it.participants.any { participant -> participant.userId == authInfo.user.id }
+            }.map { it.toUi(authInfo.user.id) },
             localParticipant = authInfo.user.toUi()
         )
     }.onStart {
@@ -57,9 +59,9 @@ class ChatListViewModel(
 
     fun onAction(action: ChatListAction) {
         when (action) {
-            is ChatListAction.OnChatClick -> {
+            is ChatListAction.OnSelectChat -> {
                 _state.update { it.copy(
-                    selectedChatId = action.chat.id
+                    selectedChatId = action.chatId
                 ) }
             }
             else -> Unit

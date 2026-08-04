@@ -1,6 +1,5 @@
 package com.ruialves.chat.presentation.mappers
 
-import androidx.compose.ui.text.toUpperCase
 import com.ruialves.chat.domain.models.Chat
 import com.ruialves.chat.presentation.models.ChatUi
 import com.ruialves.core.designsystem.components.avatar.ChatParticipantUi

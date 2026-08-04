@@ -5,7 +5,9 @@ import chirp.core.presentation.generated.resources.error_bad_request
 import chirp.core.presentation.generated.resources.error_conflict
 import chirp.core.presentation.generated.resources.error_disk_full
 import chirp.core.presentation.generated.resources.error_forbidden
+import chirp.core.presentation.generated.resources.error_message_send_failed
 import chirp.core.presentation.generated.resources.error_no_internet
+import chirp.core.presentation.generated.resources.error_not_connected
 import chirp.core.presentation.generated.resources.error_not_found
 import chirp.core.presentation.generated.resources.error_payload_too_large
 import chirp.core.presentation.generated.resources.error_request_timeout
@@ -35,6 +37,8 @@ fun DataError.toUiText(): UiText {
         DataError.Remote.SERVICE_UNAVAILABLE -> Res.string.error_service_unavailable
         DataError.Remote.SERIALIZATION -> Res.string.error_serialization
         DataError.Remote.UNKNOWN -> Res.string.error_unknown
+        DataError.ConnectionError.NOT_CONNECTED -> Res.string.error_not_connected
+        DataError.ConnectionError.MESSAGE_SEND_FAILED -> Res.string.error_message_send_failed
     }
     return UiText.Resource(resource)
 }

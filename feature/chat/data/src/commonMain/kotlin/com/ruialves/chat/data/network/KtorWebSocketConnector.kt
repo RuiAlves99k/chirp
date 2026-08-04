@@ -6,7 +6,7 @@ import com.ruialves.chat.domain.models.ConnectionState
 import com.ruialves.core.data.networking.UrlConstants
 import com.ruialves.core.domain.auth.SessionStorage
 import com.ruialves.core.domain.logging.ChirpLogger
-import com.ruialves.core.domain.util.ConnectionError
+import com.ruialves.core.domain.util.DataError
 import com.ruialves.core.domain.util.EmptyResult
 import com.ruialves.core.domain.util.Result.Failure
 import com.ruialves.core.domain.util.Result.Success
@@ -205,11 +205,11 @@ class KtorWebSocketConnector(
         }
     }
 
-    suspend fun sendMessage(message: String): EmptyResult<ConnectionError>{
+    suspend fun sendMessage(message: String): EmptyResult<DataError.ConnectionError>{
         val connectionState = connectionState.value
 
         if (currentSession == null || connectionState != ConnectionState.CONNECTED) {
-            return Failure(ConnectionError.NOT_CONNECTED)
+            return Failure(DataError.ConnectionError.NOT_CONNECTED)
         }
 
         return try {
@@ -218,7 +218,7 @@ class KtorWebSocketConnector(
         } catch (e: Exception) {
             currentCoroutineContext().ensureActive()
             ChirpLogger.e(e) { "Unable to send WebSocket message" }
-            Failure(ConnectionError.MESSAGE_SEND_FAILED)
+            Failure(DataError.ConnectionError.MESSAGE_SEND_FAILED)
         }
     }
 

@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -40,7 +37,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun MessageBox(
     messageTextFieldState: TextFieldState,
-    isTextInputEnabled: Boolean,
+    isSendButtonEnabled: Boolean,
     connectionState: ConnectionState,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -49,7 +46,6 @@ fun MessageBox(
     ChirpMultiLineTextField(
         state = messageTextFieldState,
         modifier = modifier,
-        enabled = isTextInputEnabled,
         placeholder = stringResource(Res.string.send_a_message),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Send
@@ -77,7 +73,7 @@ fun MessageBox(
             }
             ChirpButton(
                 text = stringResource(Res.string.send),
-                enabled = isConnected && isTextInputEnabled,
+                enabled = isConnected && isSendButtonEnabled,
                 onClick = onSendClick
             )
         }
@@ -97,7 +93,7 @@ fun MessageBoxDisconnectedPreview() {
         ) {
             MessageBox(
                 messageTextFieldState = rememberTextFieldState(),
-                isTextInputEnabled = false,
+                isSendButtonEnabled = false,
                 connectionState = ConnectionState.DISCONNECTED,
                 onSendClick = {},
                 modifier = Modifier
@@ -119,7 +115,7 @@ fun MessageBoxConnectedPreview() {
         ) {
             MessageBox(
                 messageTextFieldState = rememberTextFieldState(),
-                isTextInputEnabled = false,
+                isSendButtonEnabled = false,
                 connectionState = ConnectionState.CONNECTED,
                 onSendClick = {},
                 modifier = Modifier
