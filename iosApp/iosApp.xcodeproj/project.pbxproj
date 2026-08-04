@@ -177,7 +177,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export JAVA_HOME=$(/usr/libexec/java_home -v 21)\nif [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\nif [ \"$CONFIGURATION\" = \"Alpha Debug\" ] || [ \"$CONFIGURATION\" = \"Alpha Release\" ]; then\n    FLAVOR=\"alpha\"\nelse\n    FLAVOR=\"prod\"\nfi\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode -Pflavor=$FLAVOR\n";
+			shellScript = "export JAVA_HOME=$(/usr/libexec/java_home -v 21)\n\nif [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\nif [ \"$CONFIGURATION\" = \"Alpha Debug\" ] || [ \"$CONFIGURATION\" = \"Alpha Release\" ]; then\n    FLAVOR=\"alpha\"\nelse\n    FLAVOR=\"prod\"\nfi\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode -Pflavor=$FLAVOR --stacktrace --info\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

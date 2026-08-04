@@ -3,9 +3,8 @@ import ComposeApp
 
 @main
 struct iOSApp: App {
-
     init() {
-        InitKoinKt.doInitKoin(analyticsAdapter: MixpanelAnalyticsHandler(), config: nil)
+        InitKoinKt.doInitKoin(analyticsAdapter: MixpanelAnalyticsHandler())
     }
 
     var body: some Scene {
