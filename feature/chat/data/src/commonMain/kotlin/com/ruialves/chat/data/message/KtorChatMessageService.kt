@@ -4,8 +4,10 @@ import com.ruialves.chat.data.dto.ChatMessageDto
 import com.ruialves.chat.data.mappers.toDomain
 import com.ruialves.chat.domain.message.ChatMessageService
 import com.ruialves.chat.domain.models.ChatMessage
+import com.ruialves.core.data.networking.delete
 import com.ruialves.core.data.networking.get
 import com.ruialves.core.domain.util.DataError
+import com.ruialves.core.domain.util.EmptyResult
 import com.ruialves.core.domain.util.Result
 import com.ruialves.core.domain.util.map
 import io.ktor.client.HttpClient
@@ -23,5 +25,11 @@ class KtorChatMessageService(
                 }
             }
         ).map { it.map { it.toDomain() } }
+    }
+
+    override suspend fun deleteMessage(messageId: String): EmptyResult<DataError.Remote> {
+        return httpClient.delete(
+            route = "/messages/$messageId"
+        )
     }
 }
