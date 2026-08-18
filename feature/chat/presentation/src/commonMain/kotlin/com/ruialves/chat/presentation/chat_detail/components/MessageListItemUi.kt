@@ -24,6 +24,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun MessageListItemUi(
     messageUi: MessageUi,
+    messageWithOpenMenu: MessageUi.LocalUserMessage?,
     onDismissMessageMenu: () -> Unit,
     onMessageLongClick: (MessageUi.LocalUserMessage) -> Unit,
     onDeleteClick: (MessageUi.LocalUserMessage) -> Unit,
@@ -41,6 +42,7 @@ fun MessageListItemUi(
 
             is MessageUi.LocalUserMessage -> LocalUserMessage(
                 message = messageUi,
+                messageWithOpenMenu = messageWithOpenMenu,
                 onMessageLongClick = { onMessageLongClick(messageUi) },
                 onDeleteClick = { onDeleteClick(messageUi) },
                 onRetryClick = { onRetryClick(messageUi) },
@@ -80,15 +82,16 @@ private fun DateSeparatorUi(
 @Composable
 @Preview
 private fun MessageListItemUiLocalMessageSentPreview() {
+    val message = MessageUi.LocalUserMessage(
+        id = "1",
+        content = "Hello World, this is a preview",
+        deliveryStatus = ChatMessageDeliveryStatus.SENT,
+        formattedSentTime = UiText.DynamicString("Friday 2:20pm"),
+    )
     ChirpTheme {
         MessageListItemUi(
-            messageUi = MessageUi.LocalUserMessage(
-                id = "1",
-                content = "Hello World, this is a preview",
-                deliveryStatus = ChatMessageDeliveryStatus.SENT,
-                isMenuOpen = true,
-                formattedSentTime = UiText.DynamicString("Friday 2:20pm"),
-            ),
+            messageUi = message,
+            messageWithOpenMenu = message,
             onRetryClick = {},
             onDeleteClick = {},
             onMessageLongClick = {},
@@ -110,9 +113,9 @@ private fun MessageListItemUiLocalMessageRetryPreview() {
                 id = "1",
                 content = "Hello World, this is a preview",
                 deliveryStatus = ChatMessageDeliveryStatus.FAILED,
-                isMenuOpen = false,
                 formattedSentTime = UiText.DynamicString("Friday 2:20pm"),
             ),
+            messageWithOpenMenu = null,
             onRetryClick = {},
             onDeleteClick = {},
             onMessageLongClick = {},
@@ -133,9 +136,9 @@ private fun MessageListItemUiLocalMessageSendingPreview() {
                 id = "1",
                 content = "Hello World, this is a preview",
                 deliveryStatus = ChatMessageDeliveryStatus.SENDING,
-                isMenuOpen = false,
                 formattedSentTime = UiText.DynamicString("Friday 2:20pm"),
             ),
+            messageWithOpenMenu = null,
             onRetryClick = {},
             onDeleteClick = {},
             onMessageLongClick = {},
@@ -161,6 +164,7 @@ private fun MessageListItemUiOtherMessagePreview() {
                     initials = "RA"
                 )
             ),
+            messageWithOpenMenu = null,
             onRetryClick = {},
             onDeleteClick = {},
             onMessageLongClick = {},

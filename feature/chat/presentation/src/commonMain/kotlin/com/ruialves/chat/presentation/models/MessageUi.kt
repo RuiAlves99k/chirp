@@ -10,7 +10,6 @@ sealed class MessageUi(open val id: String) {
         val content: String,
         val deliveryStatus: ChatMessageDeliveryStatus,
         val formattedSentTime: UiText,
-        val isMenuOpen: Boolean,
     ) : MessageUi(id)
 
     data class OtherUserMessage(

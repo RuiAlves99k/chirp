@@ -41,6 +41,7 @@ import com.ruialves.chat.domain.models.ChatMessageDeliveryStatus
 import com.ruialves.chat.presentation.chat_detail.components.ChatDetailHeader
 import com.ruialves.chat.presentation.chat_detail.components.MessageBox
 import com.ruialves.chat.presentation.chat_detail.components.MessageList
+import com.ruialves.chat.presentation.chat_detail.components.PaginationScrollListener
 import com.ruialves.chat.presentation.components.ChatHeader
 import com.ruialves.chat.presentation.components.EmptySection
 import com.ruialves.chat.presentation.models.ChatUi
@@ -129,6 +130,23 @@ fun ChatDetailScreen(
 ) {
     val configuration = currentDeviceConfiguration()
     val messageListState = rememberLazyListState()
+
+    val realMessageItemCount = remember(state.messages) {
+        state.messages.filter {
+            it is MessageUi.LocalUserMessage || it is MessageUi.OtherUserMessage
+        }.size
+    }
+
+    PaginationScrollListener(
+        lazyListState = messageListState,
+        itemCount = realMessageItemCount,
+        isPaginationLoading = state.isPaginationLoading,
+        isEndReached = state.endReached,
+        onNearTop = {
+            onAction(ChatDetailAction.OnScrollToTop)
+        }
+    )
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -194,6 +212,7 @@ fun ChatDetailScreen(
 
                         MessageList(
                             messages = state.messages,
+                            messageWithOpenMenu = state.messageWithOpenMenu,
                             listState = messageListState,
                             onMessageLongClick = { message ->
                                 onAction(ChatDetailAction.OnMessageLongClick(message))
@@ -206,6 +225,11 @@ fun ChatDetailScreen(
                             },
                             onDismissMessageMenu = {
                                 onAction(ChatDetailAction.OnDismissMessageMenu)
+                            },
+                            paginationError = state.paginationError?.asString(),
+                            isPaginationLoading = state.isPaginationLoading,
+                            onRetryPaginationClick = {
+                                onAction(ChatDetailAction.OnRetryPaginationClick)
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -346,7 +370,6 @@ private fun ChatDetailMessagesPreview() {
                             id = it.toString(),
                             content = "Hello world!",
                             deliveryStatus = ChatMessageDeliveryStatus.SENT,
-                            isMenuOpen = false,
                             formattedSentTime = UiText.DynamicString("Friday, Aug 20"),
                         )
                     } else {
@@ -421,7 +444,6 @@ private fun ChatDetailMessagesDarkPreview() {
                             id = Uuid.random().toString(),
                             content = "Hello world!",
                             deliveryStatus = ChatMessageDeliveryStatus.SENT,
-                            isMenuOpen = false,
                             formattedSentTime = UiText.DynamicString("Friday, Aug 20"),
                         )
                     } else {
