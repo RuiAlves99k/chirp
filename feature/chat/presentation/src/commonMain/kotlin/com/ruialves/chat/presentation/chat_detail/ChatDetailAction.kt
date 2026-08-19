@@ -1,6 +1,5 @@
 package com.ruialves.chat.presentation.chat_detail
 
-import com.ruialves.chat.domain.models.Chat
 import com.ruialves.chat.presentation.models.MessageUi
 
 sealed interface ChatDetailAction {
@@ -17,4 +16,7 @@ sealed interface ChatDetailAction {
     data object OnLeaveChatClick: ChatDetailAction
     data object OnDismissChatOptions: ChatDetailAction
     data object OnRetryPaginationClick : ChatDetailAction
+    data class OnFirstVisibleIndexChanged(val index: Int): ChatDetailAction
+    data class OnTopVisibleIndexChanged(val topVisibleIndex: Int): ChatDetailAction
+    data object OnHideBanner: ChatDetailAction
 }
