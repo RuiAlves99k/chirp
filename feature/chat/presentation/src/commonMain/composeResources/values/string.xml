@@ -9,6 +9,8 @@
     <string name="profile_settings">Profile settings</string>
     <string name="logout">Logout</string>
     <string name="save">Save</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="today_x">Today, %1$s</string>
@@ -38,5 +40,19 @@
     <string name="reconnecting">Reconnecting...</string>
     <string name="network_error">Network error</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="delete">Delete</string>
+    <string name="contact_chirp_support_change_email">Contact the Chirp support to change your email</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="show_password">Show Password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="password_hint">Use +9 characters, at least one digit and one uppercase</string>
+    <string name="delete_profile_image">Delete profile image</string>
+    <string name="delete_profile_image_desc">Are you sure you want to delete your profile picture? This action cannot be undone.</string>
+    <string name="error_current_password_incorrect">Your current password  is not correct</string>
+    <string name="error_current_password_equal_to_new_one">Your new password can't be equal to the old one</string>
+    <string name="password_change_sucessful">You've successfully changed your password</string>
 </resources>
 

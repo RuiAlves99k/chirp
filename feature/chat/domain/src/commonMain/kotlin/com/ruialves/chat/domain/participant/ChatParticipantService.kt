@@ -1,4 +1,4 @@
-package com.ruialves.chat.domain.chat
+package com.ruialves.chat.domain.participant
 
 import com.ruialves.chat.domain.models.ChatParticipant
 import com.ruialves.core.domain.util.DataError
@@ -8,4 +8,6 @@ interface ChatParticipantService {
     suspend fun searchParticipant(
         query: String,
     ): Result<ChatParticipant, DataError.Remote>
+
+    suspend fun getLocalParticipant(): Result<ChatParticipant, DataError.Remote>
 }

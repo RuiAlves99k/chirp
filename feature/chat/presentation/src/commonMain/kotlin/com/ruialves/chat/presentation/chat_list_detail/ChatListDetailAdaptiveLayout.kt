@@ -22,6 +22,7 @@ import com.ruialves.chat.presentation.chat_detail.ChatDetailRoot
 import com.ruialves.chat.presentation.chat_list.ChatListRoot
 import com.ruialves.chat.presentation.create_chat.CreateChatRoot
 import com.ruialves.chat.presentation.manage_chat.ManageChatRoot
+import com.ruialves.chat.presentation.profile.ProfileRoot
 import com.ruialves.core.designsystem.theme.extended
 import com.ruialves.core.presentation.util.DialogSheetScopedViewModel
 import kotlinx.coroutines.launch
@@ -127,6 +128,16 @@ fun ChatListDetailAdaptiveLayout(
             onMembersAdded = {
                 chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
             },
+            onDismiss = {
+                chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
+            }
+        )
+    }
+
+    DialogSheetScopedViewModel(
+        visible = sharedState.dialogState is ChatListDetailDialogState.Profile
+    ) {
+        ProfileRoot(
             onDismiss = {
                 chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
             }

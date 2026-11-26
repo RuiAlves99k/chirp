@@ -1,8 +1,8 @@
-package com.ruialves.chat.data.chat
+package com.ruialves.chat.data.participant
 
 import com.ruialves.chat.data.dto.ChatParticipantDto
 import com.ruialves.chat.data.mappers.toDomain
-import com.ruialves.chat.domain.chat.ChatParticipantService
+import com.ruialves.chat.domain.participant.ChatParticipantService
 import com.ruialves.chat.domain.models.ChatParticipant
 import com.ruialves.core.data.networking.get
 import com.ruialves.core.domain.util.DataError
@@ -19,6 +19,12 @@ class KtorChatParticipantService(
             queryParams = mapOf(
                 "query" to query
             )
+        ).map { it.toDomain() }
+    }
+
+    override suspend fun getLocalParticipant(): Result<ChatParticipant, DataError.Remote> {
+        return httpClient.get<ChatParticipantDto>(
+            route = "/participants"
         ).map { it.toDomain() }
     }
 }
